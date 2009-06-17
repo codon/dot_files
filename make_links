@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# PATH=/bin:/usr/bin
+TARGET_PATH=$( pwd | sed 's/$HOME\///' )
+
+function Link () {
+	local FILE=$1
+	local TARGET=$2
+	(
+		cd $HOME
+		if [ -e ".$FILE" ] ; then
+			mv .$FILE ${FILE}_original
+		fi
+		ln -s $TARGET/$FILE .$FILE
+	)
+}
+
+for x in $(ls); do
+	if [ "$x" == "make_links" ] ; then continue ; fi
+
+	if [ -e "$HOME/.$x" ]; then
+		if [ ! -L "$HOME/.$x" ] ; then
+			Link $x $TARGET_PATH
+		fi
+	else
+		Link $x $TARGET_PATH
+	fi
+done
+
