@@ -35,10 +35,14 @@ bind -c selectHighs 9 select 19
 bind - command -c selectHighs
 
 # default screen session
-screen -t code   0
-screen -t cvs    2
-screen -t logs   3
-screen -t stuff  4
-screen -t things 5
-screen -t sudo   1
+screen -t code     0
+screen -t git      2
+stuff 'cd ~/git'^J
+screen -t logs     3
+screen -t stuff    4
+screen -t things   5
+screen -t bin      6
+stuff 'cd ~/bin'^J
+screen -t sqlplus  7
+screen -t sudo     1
 
