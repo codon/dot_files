@@ -149,6 +149,9 @@ function! Perl()
 " compile current file
 	map !! :!perl -c %<CR>
 "
+" find and open the source to the module name currently under the cursor
+" (relies on $PERL5LIB)
+	map \p :sp `perldoc -l -m <C-r><C-w>`<CR>
 	ab udd use Data::Dumper
 	ab pdd print Dumper
 	ab wdd warn Dumper
