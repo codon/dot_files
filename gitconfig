@@ -32,3 +32,6 @@
 	dif = diff
 	lg = log -p
 	up = pull
+	new = "!git log $(ref=$(git symbolic-ref HEAD); echo $(git config -z --get branch.${ref##refs/heads/}.remote)/$(rbranch=$(git config --get branch.${ref##refs/heads/}.merge); echo ${rbranch##refs/heads/})).."
+[push]
+	default = current
