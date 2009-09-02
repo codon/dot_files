@@ -30,6 +30,9 @@ nmap <F1> <Esc>
 omap <F1> <Esc>
 vmap <F1> <Esc>
 
+" highlight trailing whitespace and spaces before a tab
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 function! Comment() range
 	execute a:firstline.','.a:lastline.'s/^/'.b:commentChar.'/'
