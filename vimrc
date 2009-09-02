@@ -148,9 +148,10 @@ function! Perl()
 	set cindent
 	set iskeyword&
 	set iskeyword+=:
+	set makeprg=perl\ -C\ %
 "
 " compile current file
-	map !! :!perl -c %<CR>
+	map !! :make<CR>
 "
 " find and open the source to the module name currently under the cursor
 " (relies on $PERL5LIB)
