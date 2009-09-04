@@ -175,7 +175,8 @@ if !exists("perl_no_extended_vars")
   syn match  perlVarSimpleMember	"\(->\)\={\I\i*}" nextgroup=perlVarMember,perlVarSimpleMember contains=perlVarSimpleMemberName contained
   syn match  perlVarSimpleMemberName	"\I\i*" contained
   syn region perlVarMember	matchgroup=perlVarPlain start="\(->\)\=\[" skip="\\]" end="]" contained contains=@perlExpr nextgroup=perlVarMember,perlVarSimpleMember
-  syn match  perlMethod		"\(->\)\I\i*" contained
+  syn match  perlMethod		"\(->\)\zs\I\i*" contained
+  syn match  perlMethod		"\(->\)\zs\I\i*" nextgroup=perlMethod
 endif
 
 " File Descriptors
