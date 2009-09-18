@@ -79,6 +79,12 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion 2>/dev/null
 fi
+
+# get /opt/local/bin before system
+if [ -d /opt/local/bin ]; then
+	PATH=/opt/local/bin:$PATH
+fi
+
 PATH=$PATH:$HOME/bin
 
 CVSROOT=
