@@ -259,7 +259,7 @@ map <F5> :set list!<CR>
 map <F8> :call Swapcolor()<CR>
 "
 " set a safe default for commentChar
-autocmd BufNewFile,Bufread * let b:commentChar='# '
+let b:commentChar='# '
 "
 " look for Perl Test::Harness documents
 autocmd BufNewFile,Bufread *.t set filetype=perl
