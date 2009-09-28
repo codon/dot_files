@@ -117,6 +117,7 @@ endif
 
 if version >= 508 || !exists("did_perl_syn_inits")
   HiLink perlVarBang		perlIdentifier
+  HiLink perlVarSimpleMemberName perlString
   if version < 600
     HiLink perlUntilEOF		perlString		
   endif
