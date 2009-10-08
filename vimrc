@@ -148,7 +148,7 @@ function! Perl()
 	set cindent
 	set iskeyword&
 	set iskeyword+=:
-	set makeprg=perl\ -C\ %
+	compiler perl
 "
 " compile current file
 	map !! :make<CR>
