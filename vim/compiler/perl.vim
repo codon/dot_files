@@ -5,6 +5,8 @@ if exists("current_compiler")
 endif
 let current_compiler = "perl-next"
 
+let s:debug = 0       " toggle debugging messages
+
 " let's try to get the perl specified in the shebang line; if that does not exist, we fall back to $PATH
 let s:perl= getline(1)
 if s:perl =~ '^#!'
@@ -20,31 +22,58 @@ elseif s:perl =~ '^\s*package\s\+\I\+'
 else
 	let s:perl = 'perl'
 endif
+if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+	echo '['.s:date.'] perl: ['.s:perl.']'
+endif
 
 " Get the perl version we are compiling against
 let s:perl_version_cmd = s:perl.' -v'
 let s:perl_version = system(s:perl_version_cmd)
 let s:perl_version = substitute(s:perl_version,'\nThis is perl, v\(\d\+\.\d\+\.\d\+\) .*built .*','\1','')
+if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+	echo '['.s:date.'] perl_version: ['.s:perl_version.']'
+endif
 
 " set our starter libs
 let s:perl_libs  = "\\ -I$MARCHEX_BASE/lib\\ -I$MARCHEX_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
 	" search for next libs
+	if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find perllibs-next'
+	endif
 	let s:next_lib = finddir('perllibs-next','/site/perllibs-next')
 	if s:next_lib
 		s:perl_libs .= '\ -I'.s:next_lib.'/lib'
 	endif
+
 	" search for xml libs
+	if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find perllibs-xml'
+	endif
 	let s:xml_lib = finddir('perllibs-xml','/site/perllibs-xml')
 	if s:xml_lib
 		s:perl_libs .= '\ -I'.s:xml_lib.'/lib'
 	endif
+
 	" need to get Apache2/RequestRec.pm
+	if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find perllibs-apache'
+	endif
 	let s:apache_lib = finddir('perllibs-apache','/site/httpd-**')
 	if s:apache_lib
 		s:perl_libs .= '\ -I'.s:apache_lib.'/lib'
 	endif
+
 	" search for oracle libs
+	if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find oracle_client libs'
+	endif
 	let s:dbis = findfile('DBI.pm','/site/oracle_client/**',-1) " -1 means 'get all'
 	let s:matches = []
 	for s:dbi in s:dbis
@@ -63,6 +92,11 @@ if has('file_in_path') && has('path_extra')
 			endif
 		endif
 	endfor
+endif
+
+if s:debug
+	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+	echo '['.s:date.'] done finding libs'
 endif
 
 if exists(":CompilerSet") != 2                   " older Vim always used :setlocal
