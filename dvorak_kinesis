@@ -1,6 +1,6 @@
 keycode  20 = bracketleft braceleft
 keycode  21 = bracketright braceright dead_tilde NoSymbol dead_tilde
-keycode  24 = apostrophe quotedbl dead_acute dead_diaeresis dead_acute dead_diaeresis
+keycode  24 = apostrophe quotedbl
 keycode  25 = comma less dead_cedilla dead_caron dead_cedilla dead_caron
 keycode  26 = period greater dead_abovedot periodcentered dead_abovedot periodcentered
 keycode  27 = p P
