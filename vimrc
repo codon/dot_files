@@ -152,6 +152,8 @@ function! Perl()
 "
 " compile current file
 	map !! :make<CR>
+	map ,n :cn<CR>
+	map ,p :cp<CR>
 "
 " find and open the source to the module name currently under the cursor
 " (relies on $PERL5LIB)
@@ -279,5 +281,3 @@ autocmd FileType tforge call TForge()
 autocmd FileType java   call Java()
 autocmd FileType sql    call Sql()
 autocmd FileType vim    call Vim()
-
-
