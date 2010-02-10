@@ -40,38 +40,73 @@ endif
 let s:perl_libs  = "\\ -I$MARCHEX_BASE/lib\\ -I$MARCHEX_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
 	" search for next libs
+	let s:haystack = '/site/perllibs-next/**'
+	let s:needle = 'lib'
 	if s:debug
-	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-		echo '['.s:date.'] find perllibs-next'
+		let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
 	endif
-	let s:next_lib = finddir('perllibs-next','/site/perllibs-next')
-	if s:next_lib
-		s:perl_libs .= '\ -I'.s:next_lib.'/lib'
+	let s:next_lib = finddir(s:needle,s:haystack)
+	if strlen( s:next_lib )
+		let s:perl_libs .= '\ -I'.s:next_lib
+		if s:debug
+			let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+			echo '['.s:date.'] next_lib ['.s:next_lib.']'
+		endif
+	else
+		if s:debug
+			echo 'did not find '.s:needle.' in '.s:haystack
+		endif
 	endif
 
 	" search for xml libs
+	let s:haystack = '/site/perllibs-xml/**'
+	let s:needle = 'lib'
 	if s:debug
-	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-		echo '['.s:date.'] find perllibs-xml'
+		let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
 	endif
-	let s:xml_lib = finddir('perllibs-xml','/site/perllibs-xml')
-	if s:xml_lib
-		s:perl_libs .= '\ -I'.s:xml_lib.'/lib'
+	let s:xml_lib = finddir(s:needle,s:haystack)
+	if strlen( s:xml_lib )
+		let s:perl_libs .= '\ -I'.s:xml_lib
+		if s:debug
+			let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+			echo '['.s:date.'] xml_lib ['.s:xml_lib.']'
+		endif
+	else
+		if s:debug
+			echo 'did not find '.s:needle.' in '.s:haystack
+		endif
 	endif
 
 	" need to get Apache2/RequestRec.pm
 	if s:debug
-	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
 		echo '['.s:date.'] find perllibs-apache'
 	endif
-	let s:apache_lib = finddir('perllibs-apache','/site/httpd-**')
-	if s:apache_lib
-		s:perl_libs .= '\ -I'.s:apache_lib.'/lib'
+	let s:haystack = '/site/httpd/httpd-**'
+	let s:needle = 'Apache2'
+	if s:debug
+		let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
+	endif
+	let s:apache_lib = finddir(s:needle,s:haystack) " we want to find Apache2/
+	if strlen( s:apache_lib )
+		let s:apache_lib = substitute(s:apache_lib,'/Apache2','','') " but include the containing dir
+		let s:perl_libs .= '\ -I'.s:apache_lib
+		if s:debug
+			let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+			echo '['.s:date.'] apache_lib ['.s:apache_lib.']'
+		endif
+	else
+		if s:debug
+			echo 'did not find '.s:needle.' in '.s:haystack
+		endif
 	endif
 
 	" search for oracle libs
 	if s:debug
-	let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+		let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
 		echo '['.s:date.'] find oracle_client libs'
 	endif
 	let s:dbis = findfile('DBI.pm','/site/oracle_client/**',-1) " -1 means 'get all'
@@ -131,6 +166,7 @@ exe s:command
 CompilerSet errorformat=
 	\%-G%.%#had\ compilation\ errors.,
 	\%-G%.%#syntax\ OK,
+	\%-G%.%#used\ only\ once,
 	\%m\ at\ %f\ line\ %l.,
 	\%+A%.%#\ at\ %f\ line\ %l\\,%.%#,
 	\%+C%.%#
@@ -138,6 +174,7 @@ CompilerSet errorformat=
 " Explanation:
 " %-G%.%#had\ compilation\ errors.,  - Ignore the obvious.
 " %-G%.%#syntax\ OK,                 - Don't include the 'a-okay' message.
+" \%-G%.%#used\ only\ once,          - Ignore "used only once, possible typo" messages
 " %m\ at\ %f\ line\ %l.,             - Most errors...
 " %+A%.%#\ at\ %f\ line\ %l\\,%.%#,  - As above, including ', near ...'
 " %+C%.%#                            -   ... Which can be multi-line.
