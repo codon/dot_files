@@ -15,6 +15,7 @@ set backspace=indent,eol,start
 set mouse=
 set listchars=tab:\|-,trail:-
 set list
+set hidden
 "
 "
 " turn on syntax highlighting if using a color terminal
@@ -44,6 +45,9 @@ endfunction
 
 map ## :call Comment()<cr>
 map !# :call UnComment()<cr>
+
+map <C-T>n :tabnext<CR>
+map <C-T>p :tabprev<CR>
 
 function! SplitConflict ()
 	let l:bufferFileType = &filetype "get current filetype
