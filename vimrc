@@ -5,7 +5,7 @@ set shiftwidth=4
 set tabstop=4
 set showmode
 set cindent
-set noexpandtab
+set expandtab
 set showmatch
 set ruler
 set showcmd
