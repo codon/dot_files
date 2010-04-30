@@ -15,6 +15,7 @@ set backspace=indent,eol,start
 set mouse=
 set listchars=tab:\|-,trail:-
 set list
+set modelines=5
 "
 "
 " turn on syntax highlighting if using a color terminal
