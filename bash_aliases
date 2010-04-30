@@ -25,4 +25,4 @@ alias vi=$( which vim )
 alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
 alias asdf='xmodmap ~/.qwerty'
-
+alias sock='export SSH_AUTH_SOCK=$( echo $(find /tmp/ssh-* -user iheffner -name '\''agent.*'\'' 2>/dev/null) | cut -d\  -f1 )'

@@ -12,7 +12,7 @@ startup_message off
 # Always use the hard status
 hardstatus alwayslastline
 # And set it to something really useful
-hardstatus string '%?%-Lw%?%{r}%45>(%{b}%n*%f%t%?(%u)%?%{r})%{d}%+LW'
+hardstatus string '[a] %?%-Lw%?%{r}%45>(%{b}%n*%f%t%?(%u)%?%{r})%{d}%+LW'
 
 # fix annoying  /  problem
 bindkey -d -k kb stuff "\177"

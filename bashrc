@@ -10,6 +10,11 @@ export HISTCONTROL=ignoredups
 # ... and ignore same sucessive entries.
 export HISTCONTROL=ignoreboth
 
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -39,6 +44,7 @@ esac
 case "$TERM" in
 xterm*|rxvt*|screen)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     ;;
 *)
     ;;
@@ -78,6 +84,12 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion 2>/dev/null
 fi
+
+# get /opt/local/bin before system
+if [ -d /opt/local/bin ]; then
+	PATH=/opt/local/bin:$PATH
+fi
+
 PATH=$PATH:$HOME/bin
 
 CVSROOT=

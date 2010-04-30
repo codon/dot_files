@@ -38,8 +38,8 @@ bind -c selectHighs 9 select 19
 bind - command -c selectHighs
 
 # default screen session
-screen -t server0           0 ssh server0
-screen -t server1           1 ssh server1
-screen -t server2           2 ssh server2
-screen -t server3           3 ssh server3
+screen -t server0           0
+screen -t server1           1
+screen -t server2           2
+screen -t server3           3
 
