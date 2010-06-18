@@ -38,3 +38,5 @@
 	default = current
 [pull]
 	default = rebase
+[user]
+	name = Ivan Heffner

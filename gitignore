@@ -2,6 +2,5 @@
 *#
 *~
 .DS_Store
-.*.sw?
-.sw?
+.*sw?
 Thumbs.db
