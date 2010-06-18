@@ -21,6 +21,19 @@ function setPerl5lib () {
 	export PERL5LIB
 }
 
+function git_only() {
+    opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
+    rev=$(git rev-parse --revs-only "$@" 2>/dev/null)
+    if [[ -z $rev ]]; then
+        branch=$(git name-rev --name-only HEAD)
+    else
+        branch=$rev
+    fi
+    git log $(git rev-parse --not --remotes --branches | grep -v $(git rev-parse $branch)) $branch $opts
+}
+
+export -f git_only
+
 alias vi=$( which vim )
 alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
