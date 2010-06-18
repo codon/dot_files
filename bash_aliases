@@ -37,3 +37,4 @@ else
     FIND_ARGS='/tmp/ssh-* -user iheffner -name '\''agent.*'\'
 fi
 alias sock='export SSH_AUTH_SOCK=$( echo $( find '$FIND_ARGS' 2>/dev/null ) | cut -d\  -f1 )' # grab the first socket we find
+alias mk_next_lib='/site/perl/perl-5.10.1-1/bin/perl Makefile.PL PREFIX=/site/perllibs-next INSTALLMAN1DIR=/site/perllibs-next/man1 INSTALLMAN3DIR=/site/perllibs-next/man3 LIB=/site/perllibs-next/lib'
