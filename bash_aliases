@@ -47,7 +47,7 @@ function set_agent () {
 
     AGENT=$( echo $( eval "find $FIND_ARGS 2>/dev/null" ) | cut -d\  -f1 )
 
-    if [ -n "$AGENT" ] ; then # no agent? Start one
+    if [ -z "$AGENT" ] ; then # no agent? Start one
         eval $(ssh-agent)
         ssh-add
     else
