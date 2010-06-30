@@ -45,7 +45,7 @@ function set_agent () {
         FIND_ARGS="/tmp/ssh-* -user $USER -name 'agent.*'"
     fi
 
-    AGENT=$( echo $( find $FIND_ARGS 2>/dev/null ) | cut -d\  -f1 ) # grab the first socket we find
+    AGENT=$( echo $( eval "find $FIND_ARGS 2>/dev/null" ) | cut -d\  -f1 )
 
     if [ -n "$AGENT" ] ; then # no agent? Start one
         eval $(ssh-agent)
