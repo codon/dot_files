@@ -17,7 +17,7 @@ PATH=$PATH:/opt/local/bin:/opt/local/sbin:/usr/java/jre1.5.0_06/bin:$HOME/bin:$H
 IFS='
 '
 if [[ $(hostname) =~ 'slugfest' || $(hostname) =~ 'bumblebee' ]] ; then
-	for x in $( ls -d /site/{perl,perllibs-xml,pulley} ) ; do
+	for x in $( ls -d /site/{marchex,perl,perllibs-xml,pulley} ) ; do
 # 		echo "find $x ..."
 		for y in $( find $x -name build -prune -o -name packages -prune -o -type d -name bin ) ; do
 # 			echo "export PATH=$y:\$PATH"
@@ -33,7 +33,7 @@ else
 	done
 fi
 
-ORACLE_HOME=/opt/oracle/product/current
+ORACLE_HOME=/site/oracle_client/client-11.2.0.1
 PATH=$PATH:$ORACLE_HOME/bin
 
 # fix some environment issues
