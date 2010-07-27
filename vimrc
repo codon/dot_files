@@ -23,6 +23,7 @@ set modelines=5
 " - always use vertical splits (unless stated explicitly otherwise)
 " - ignore whitespace
 set diffopt=filler,vertical,iwhite
+set comments=
 "
 " turn on syntax highlighting if using a color terminal
 if &t_Co > 1
