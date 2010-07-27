@@ -17,7 +17,11 @@ set listchars=tab:\|-,trail:-
 set list
 set hidden
 set modelines=5
-"
+" Diff options:
+" - use filler chars for deleted lines
+" - always use vertical splits (unless stated explicitly otherwise)
+" - ignore whitespace
+set diffopt=filler,vertical,iwhite
 "
 " turn on syntax highlighting if using a color terminal
 if &t_Co > 1
