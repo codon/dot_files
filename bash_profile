@@ -33,7 +33,7 @@ else
 	done
 fi
 
-ORACLE_HOME=/site/oracle_client/client-11.2.0.1
+ORACLE_HOME=/opt/oracle/product/current
 PATH=$PATH:$ORACLE_HOME/bin
 
 # fix some environment issues
