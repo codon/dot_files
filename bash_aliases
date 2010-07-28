@@ -54,22 +54,34 @@ function git_only() {
 }
 export -f git_only
 
-function git_cleanup() {
-    if [[ $1 != "-f" ]]; then
-        echo "### Dry-run mode, specify -f to actually perform deletes."
-    fi
-    for branch in $(git branch -r --merged origin/master | sed 's/^\s\+//' | grep '\<origin/' | grep -v '\<origin/master\>'); do
-        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
-            name=$(echo $branch | sed 's/^origin\///')
-            if [[ $1 = "-f" ]]; then
-                git push --delete origin "$name"
+function cgtest() {
+    (
+        cd $HOME/git/next
+        for dir in $( ls ) ; do
+            if [ -d "$dir/templates" ] ; then
+                (
+                    cd $dir
+                    echo -n "$dir: "
+                    confgen 1>/dev/null 2>&1
+                    if [ 0 -eq $? ] ; then
+                        confgen --dev 1>/dev/null 2>&1
+                        if [ 0 -eq $? ] ; then
+                            echo 'ok'
+                        else
+                            echo 'has errors'
+                            break
+                        fi
+                    else
+                        echo 'has errors'
+                        break
+                    fi
+                )
             else
-                echo git push --delete origin "$name"
+                echo "$dir: skipped"
             fi
-        fi
-    done
+        done
+    )
 }
-export -f git_cleanup
 
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
