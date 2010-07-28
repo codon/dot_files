@@ -94,6 +94,7 @@ alias htunnel='ssh -L 5901:ibook.iheffner.com:5900 -p2222 root@heimdall.iheffner
 alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 
 alias mk_next_lib='/site/perl/perl-5.10.1-1/bin/perl Makefile.PL PREFIX=/site/perllibs-next INSTALLMAN1DIR=/site/perllibs-next/man1 INSTALLMAN3DIR=/site/perllibs-next/man3 LIB=/site/perllibs-next/lib'
+alias rdp='rdesktop -g 1280x900 terminal1sea.windows.marchex.com'
 alias gf='git fetch'
 alias gp='git push'
 alias grb='git rebase'
