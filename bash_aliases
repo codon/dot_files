@@ -71,6 +71,35 @@ function git_cleanup() {
 }
 export -f git_cleanup
 
+function cgtest() {
+    (
+        cd $HOME/git/next
+        for dir in $( ls ) ; do
+            if [ -d "$dir/templates" ] ; then
+                (
+                    cd $dir
+                    echo -n "$dir: "
+                    confgen 1>/dev/null 2>&1
+                    if [ 0 -eq $? ] ; then
+                        confgen --dev 1>/dev/null 2>&1
+                        if [ 0 -eq $? ] ; then
+                            echo 'ok'
+                        else
+                            echo 'has errors'
+                            break
+                        fi
+                    else
+                        echo 'has errors'
+                        break
+                    fi
+                )
+            else
+                echo "$dir: skipped"
+            fi
+        done
+    )
+}
+
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
 # varies a little between Linux and Mac OS X, but since I don't want to remember two different
