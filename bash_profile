@@ -9,7 +9,7 @@ fi
 
 PATH=$PATH:/opt/local/pgsql/bin:$HOME/bin
 # ~mds set path to manually installed java
-TUNNEL_HOST=
+TUNNEL_HOST=iheffner.com
 export TUNNEL_HOST
 
 PATH=$PATH:/opt/local/bin:/opt/local/sbin:/usr/java/jre1.5.0_06/bin:$HOME/bin:$HOME/svn/depot_tools
