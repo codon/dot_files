@@ -29,6 +29,19 @@ function git_push_workingtree() {
 }
 export -f git_push_workingtree
 
+function nxcp.exec () {
+    cmd=$1
+    echo "running '$cmd' against all call processors. Hit ENTER to continue."
+    read enter
+    sock
+    for x in 1 2 3 4 5 6 7 8 ; do
+        nxcp="nxcp${x}.sad"
+        echo "$nxcp"
+        ssh -t $nxcp "sudo /site/asterisk/asterisk-1.6.2.6/sbin/asterisk -C /site/nx-call-proc-ast-conf/conf/asterisk.conf -rx '$cmd'"
+        echo "====="
+    done
+}
+
 function git_only() {
     opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
     rev=$(git rev-parse --revs-only "$@" 2>/dev/null)
