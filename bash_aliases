@@ -91,6 +91,7 @@ alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
 alias asdf='xmodmap ~/.qwerty'
 alias htunnel='ssh -L 5901:ibook.iheffner.com:5900 -p2222 root@heimdall.iheffner.com'
+alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 
 alias mk_next_lib='/site/perl/perl-5.10.1-1/bin/perl Makefile.PL PREFIX=/site/perllibs-next INSTALLMAN1DIR=/site/perllibs-next/man1 INSTALLMAN3DIR=/site/perllibs-next/man3 LIB=/site/perllibs-next/lib'
 alias gf='git fetch'
