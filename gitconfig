@@ -21,7 +21,7 @@
 	autosetupmerge = true
 [core]
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = $HOME/.gitignore
+	excludesfile = /Users/iheffner/.gitignore
 [alias]
 	st = status
 	ci = commit
