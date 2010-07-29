@@ -48,7 +48,7 @@ endfunction
 
 function! UnComment() range
     try
-        execute a:firstline.','.a:lastline.'s/^'.b:commentChar.' \?//'
+        execute a:firstline.','.a:lastline.'s/^\(\s*\)'.b:commentChar.'\( \?\)\@=/\1/'
     catch /E486:/
     endtry
 endfunction
