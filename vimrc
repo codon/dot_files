@@ -47,7 +47,10 @@ function! Comment() range
 endfunction
 
 function! UnComment() range
-    execute a:firstline.','.a:lastline.'s/^'.b:commentChar.' \?//'
+    try
+        execute a:firstline.','.a:lastline.'s/^'.b:commentChar.' \?//'
+    catch /E486:/
+    endtry
 endfunction
 
 map ## :call Comment()<cr>
