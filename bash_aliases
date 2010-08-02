@@ -83,6 +83,76 @@ function cgtest() {
     )
 }
 
+function _service () {
+    service=$1
+    action=$2
+    case $action in
+        'stop')
+            echo -n "stopping $service ... "
+            $service stop 2>/dev/null 1>&2
+            if [ 0 == $? ] ; then
+                echo "[ok]"
+            else
+                echo "[ERROR]"
+            fi
+            ;;
+        'start')
+            echo -n "starting $service ... "
+            $service start 2>/dev/null 1>&2
+            if [ 0 == $? ] ; then
+                echo "[ok]"
+            else
+                echo "[ERROR]"
+            fi
+            ;;
+        *)
+            echo "you don't know what you're talking about, do you?"
+            ;;
+    esac
+}
+
+function _services () {
+    action=$1
+    shift
+    for service in $* ; do
+        (
+            cd $service
+            echo -n "$service: "
+            _service bin/httpd $action
+            if [ "$service" == "utility_api" ] ; then
+                _service bin/tomcat $action
+            fi
+        )
+    done
+}
+
+function _get_git_base () {
+    GIT_BASE=$HOME/git/next
+    if [ ! -d $GIT_BASE ] ; then
+        echo "where is your working 'next' directory?"
+        read GIT_BASE
+    fi
+    echo $GIT_BASE
+}
+
+function mx_basic_start () {
+    GIT_BASE=$(_get_git_base)
+    (
+        cd $GIT_BASE
+        ( cd utility_api && echo -n 'utility_api: ' && _service bin/tomcat start )
+        _services start utility_api user_api mgmt_api mgmt_ui
+    )
+}
+
+function mx_basic_stop () {
+    GIT_BASE=$(_get_git_base)
+    (
+        cd $GIT_BASE
+        _services stop mgmt_ui mgmt_api user_api utility_api
+        ( cd utility_api && echo -n 'utility_api: ' && _service bin/tomcat stop )
+    )
+}
+
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
 # varies a little between Linux and Mac OS X, but since I don't want to remember two different
