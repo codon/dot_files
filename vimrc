@@ -158,58 +158,12 @@ function! Java()
     ab printe System.err.println
 endfunction
 "
-" Text::Forge Specific Settings
-"function! TForge()
-"    " Text::Forge is a Perl module
-"    call Perl()
-"endfunction
-"
 function! Sql()
     let b:commentChar = "--"
 endfunction
 function! Vim()
     let b:commentChar = "\""
 endfunction
-" ------------------------------------------------------------------------------
-" Functions for status bar.  ( Probably only works with newer version of VIM )
-" ------------------------------------------------------------------------------
-function! CurrSubName()
-    let b:subname = ""
-    let b:subrecurssion = 0
-
-    " See if this is a Perl file
-    let l:firstline = getline(1)
-
-    if ( l:firstline =~ '#!.*perl' || l:firstline =~ '^package ' )
-        call GetSubName(line("."))
-    endif
-
-    return b:subname
-endfunction
-
-function! GetSubName(line)
-    let l:str = getline(a:line)
-
-    if l:str =~ '^\s*sub\>'
-        let l:str = substitute( l:str, ' *{.*', '', '' )
-        let l:str = substitute( l:str, '^\s*sub *', ': ', '' )
-        let b:subname = l:str
-        return 1
-    elseif ( l:str =~ '^}' || l:str =~ '^} *#' ) && b:subrecurssion >= 1
-        return -1
-    elseif a:line > 2
-        let b:subrecurssion = b:subrecurssion + 1
-        if b:subrecurssion < 190
-            call GetSubName(a:line - 1)
-        else
-            let b:subname = ': <too deep>'
-            return -1
-        endif
-    else
-        return -1
-    endif
-endfunction
-
 "
 " Convinience function key maps
 set pastetoggle=<F2> " not redundant
@@ -222,12 +176,6 @@ map <F8> :call Swapcolor()<CR>
 " set a safe default for commentChar
 let b:commentChar='# '
 "
-" look for Perl Test::Harness documents
-autocmd BufNewFile,Bufread *.t set filetype=perl
-"
-" look for TextForge documents
-autocmd BufNewFile,Bufread *.tf set filetype=tforge
-"
 " look for JSP Fragments
 autocmd BufNewFile,Bufread *.jspf set filetype=jsp
 "
@@ -235,8 +183,6 @@ autocmd BufNewFile,Bufread *.jspf set filetype=jsp
 autocmd BufNewFile,Bufread */itsalltext/* let b:commentChar='> '
 "
 " call appropriate language-specific function based on file type
-"autocmd FileType perl   call Perl()
-"autocmd FileType tforge call TForge()
 autocmd FileType java   call Java()
 autocmd FileType sql    call Sql()
 autocmd FileType vim    call Vim()
