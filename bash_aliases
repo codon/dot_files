@@ -57,6 +57,19 @@ function set_agent () {
 # I'm lazy and just want to type "sock"
 alias sock=set_agent
 
+rehost() {
+    if [[  1 != $#  ]]; then
+        echo "Usage: rehost host" >&2
+        return 1
+    fi
+    local host="$1"
+    pushd ~ > /dev/null
+    # .gitconfig
+    scp -r .ssh .vim* .bash* .screen* $host:.
+    ssh $host "[[ -f .bash_history ]] && mv -i .bash_history .hist_bash"
+    ssh $host rm -f .bash_rc .bash_aliases
+    popd > /dev/null
+}
 
 alias vi=$( which vim )
 alias gi='gvim -rv'
