@@ -84,7 +84,7 @@ if has('file_in_path') && has('path_extra')
         let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
         echo '['.s:date.'] find perllibs-apache'
     endif
-    let s:haystack = '/site/httpd/httpd-**'
+    let s:haystack = '/site/httpd/**'
     let s:needle = 'Apache2'
     if s:debug
         let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
