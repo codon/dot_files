@@ -119,9 +119,6 @@ function _services () {
             cd $service
             echo -n "$service: "
             _service bin/httpd $action
-            if [ "$service" == "utility_api" ] ; then
-                _service bin/tomcat $action
-            fi
         )
     done
 }
@@ -139,7 +136,6 @@ function mx_basic_start () {
     GIT_BASE=$(_get_git_base)
     (
         cd $GIT_BASE
-        ( cd utility_api && echo -n 'utility_api: ' && _service bin/tomcat start )
         _services start utility_api user_api mgmt_api mgmt_ui
     )
 }
@@ -149,7 +145,6 @@ function mx_basic_stop () {
     (
         cd $GIT_BASE
         _services stop mgmt_ui mgmt_api user_api utility_api
-        ( cd utility_api && echo -n 'utility_api: ' && _service bin/tomcat stop )
     )
 }
 
