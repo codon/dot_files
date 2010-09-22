@@ -36,6 +36,25 @@ if s:debug
     echo '['.s:date.'] perl_version: ['.s:perl_version.']'
 endif
 
+" Try get MARCHEX_BASE
+if strlen( $MARCHEX_BASE ) == 0
+    if s:debug
+        echo "no MARCHEX_BASE; guessing"
+    endif
+    let s:buffer = getcwd().'/'.bufname("%")
+    if s:buffer =~ "/next/"
+        if s:debug
+            echo "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits"
+        endif
+        let s:pat = '\(/next/\I\+\)/.*'
+        echo "substitute(".s:buffer.", ".s:pat
+        let $MARCHEX_BASE=substitute(s:buffer,s:pat,'\1','')
+    endif
+    if s:debug
+        echo "Set MARCHEX_BASE [".$MARCHEX_BASE."]"
+    endif
+endif
+
 " set our starter libs
 let s:perl_libs  = "\\ -I$MARCHEX_BASE/lib\\ -I$MARCHEX_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
