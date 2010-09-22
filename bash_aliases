@@ -148,6 +148,8 @@ function mx_basic_stop () {
     )
 }
 
+alias mx_basic_restart='mx_basic_stop && mx_basic_start'
+
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
 # varies a little between Linux and Mac OS X, but since I don't want to remember two different
