@@ -216,6 +216,13 @@ map <F4> :set wrap!<CR>
 map <F5> :set list!<CR>
 map <F8> :call Swapcolor()<CR>
 "
+" Map <Home> and <End> on M$ keyboard to do useful home/end function
+imap <Esc>[H <C-O>0
+imap <Esc>[F <C-O>$
+nmap <Esc>[H      0
+nmap <Esc>[F      $
+
+"
 " set a safe default for commentChar
 let b:commentChar='# '
 "
