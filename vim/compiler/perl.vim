@@ -47,7 +47,9 @@ if strlen( $MARCHEX_BASE ) == 0
             echo "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits"
         endif
         let s:pat = '\(/next/\I\+\)/.*'
-        echo "substitute(".s:buffer.", ".s:pat
+        if s:debug
+            echo "substitute(".s:buffer.", ".s:pat.",'\1','')"
+        endif
         let $MARCHEX_BASE=substitute(s:buffer,s:pat,'\1','')
     endif
     if s:debug
