@@ -42,15 +42,43 @@ let perl_extended_vars = 1
 let perl_sync_dist = 100
 let perl_fold = 1
 let b:commentChar = "#"
-" ------------------------------------------------------------------------------
-" A really nice status bar.  ( Probably only works with newer version of VIM )
-" ------------------------------------------------------------------------------
+
 if has( "folding" )
-	set statusline=%f%{CurrSubName()}\ %m%h%r\ %=%25(%-17(%l\,%c%V%)\ %p%%%)
-	set laststatus=2
 	set maxfuncdepth=1000
 	set foldexpr=GetPerlFold()
 "	set foldmethod=expr
 	set foldmethod=syntax
 endif
 
+" ------------------------------------------------------------------------------
+" A really nice status bar.  ( Probably only works with newer version of VIM )
+" ------------------------------------------------------------------------------
+" This is rather lame: statusline is a global option, not per-buffer. That
+" means we need to recreate the entire status line when we load a perl file
+" just so we can get the current subroutine.
+if exists('g:loaded_fugitive')                           " make sure we have fugitive
+    set statusline=%{fugitive#statusline()}\             " current git branch
+else
+    set statusline=                                      " blank
+endif
+
+set statusline+=%f                                       " filename
+
+if &ft == "perl"
+    set statusline+=%{CurrSubName()}\                    " current (Perl) subroutine
+endif
+
+set statusline+=%{StatuslineTrailingSpaceWarning()}\     " trailing space warning
+set statusline+=%#warningmsg#
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}
+set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
+set statusline+=%*
+set statusline+=%#error#
+set statusline+=%{&paste?'[paste]':''}
+set statusline+=%*
+set statusline+=%m%h%r\                                  " modifed, help, readonly
+set statusline+=%=%25(%17(%c%V\,%l\ \(%L\)%)\ %p%%%)     " column, virtual column,
+                                                         " current line, total linecount
+                                                         " percent through file
