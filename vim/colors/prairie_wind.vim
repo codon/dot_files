@@ -37,9 +37,9 @@ hi Visual       cterm=NONE       ctermfg=Black         ctermbg=DarkCyan   gui=NO
 
 hi DiffChange   cterm=NONE       ctermfg=Black         ctermbg=DarkGreen  gui=NONE       guifg=Black        guibg=DarkGreen
 hi DiffText     cterm=NONE       ctermfg=Black         ctermbg=LightGreen gui=NONE       guifg=Black        guibg=LightGreen
-hi DiffAdd      cterm=NONE       ctermfg=Black         ctermbg=Blue       gui=NONE       guifg=Black        guibg=Blue
+hi DiffAdd      cterm=NONE       ctermfg=White         ctermbg=Blue       gui=NONE       guifg=White        guibg=Blue
 hi DiffDelete   cterm=NONE       ctermfg=Black         ctermbg=Cyan       gui=NONE       guifg=Black        guibg=Cyan
-hi DiffText     cterm=NONE       ctermfg=Black         ctermbg=Red        gui=NONE       guifg=Black        guibg=Red
+hi DiffText     cterm=NONE       ctermfg=White         ctermbg=Red        gui=NONE       guifg=White        guibg=Red
 
 hi Folded       cterm=NONE       ctermfg=Gray          ctermbg=Black      gui=NONE       guifg=Gray         guibg=Black
 hi FoldColumn   cterm=NONE       ctermfg=Black         ctermbg=Gray       gui=NONE       guifg=Black        guibg=Gray
