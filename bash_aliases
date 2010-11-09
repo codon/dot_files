@@ -234,3 +234,21 @@ alias rstcpd='for h in nxc{r{1,2},p{1,2,3,4,5,6,7,8}}.sad ; do rsync -varz $h:/t
 alias path_clean='eval $( perl -wle '\''my %path = map { $_ => 1 } grep { !/tags/ && !m[lib/\w+/bin] && 6>scalar(()=m[/]g) } split /:/, $ENV{PATH}; $"=q{:}; print "export PATH=".join $", keys %path'\'' )'
 
 alias port='PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin sudo port'
+
+function call_stack() {
+    $HOME/git/next-dev/tools/mxctl.pl $* \
+            storage_api\
+            call_settings\
+            call_processor\
+            cp_ast_conf\
+            cr_opensips_conf\
+            pp_ast_conf\
+            playfile_publisher\
+            user_api\
+            mgmt_api\
+            mgmt_ui\
+            log_mover\
+            log_processor
+}
+
+alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
