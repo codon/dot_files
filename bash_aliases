@@ -201,6 +201,9 @@ function mk_user_lib() {
     make && make test && make install
 }
 
+hex() {
+    perl -wle 'printf "$_ => %x\n",ord($_) for @ARGV' $*
+}
 
 alias vi=$( which vim )
 alias gi='gvim -rv'
