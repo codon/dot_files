@@ -104,9 +104,9 @@ function! s:NewFileXML()
     if first_line =~ '^<?xml[^?]*?>$'
       let b:did_xml_inits = 1
     elseif &filetype == 'xml'
-        if append (0, '<?xml version="1.0"?>')
-            normal! G
-        endif
+"        if append (0, '<?xml version="1.0"?>')
+"            normal! G
+"        endif
     endif
 endfunction
 
