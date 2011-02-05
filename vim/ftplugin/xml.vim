@@ -99,16 +99,16 @@ endfunction
 endif
 
 " NewFileXML -> Inserts <?xml?> at top of new file.                  {{{1
-if !exists("*s:NewFileXML")
-function s:NewFileXML( )
-    " Where is g:did_xhtmlcf_inits defined?
-    if &filetype == 'xml' || (!exists ("g:did_xhtmlcf_inits") && exists ("g:xml_use_xhtml") && (&filetype == 'html' || &filetype == 'xhtml'))
+function! s:NewFileXML()
+    let first_line = getline(1)
+    if first_line =~ '^<?xml[^?]*?>$'
+      let b:did_xml_inits = 1
+    elseif &filetype == 'xml'
         if append (0, '<?xml version="1.0"?>')
             normal! G
         endif
     endif
 endfunction
-endif
 
 
 " Callback -> Checks for tag callbacks and executes them.            {{{1
