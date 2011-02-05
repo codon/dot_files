@@ -179,7 +179,7 @@ function! SmartUnTab()
         call setpos('.',pos)
         return ""
     elseif getline('.')[col - 2] !~ '\k'
-        return "\<tab>"
+        return "\<c-o>".&sw."X"
     else
         return "\<c-n>"
     endif
