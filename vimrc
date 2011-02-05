@@ -59,7 +59,7 @@ map !# :call UnComment()<cr>
 map <C-T>n :tabnext<CR>
 map <C-T>p :tabprev<CR>
 
-function AlignAssignments() range
+function! AlignAssignments() range
     "Patterns needed to locate assignment operators...
     let ASSIGN_OP   = '[-+*/%|&]\?=\@<!=[=~]\@!'
     let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . ASSIGN_OP . '\)'
