@@ -59,7 +59,7 @@ map !# :call UnComment()<cr>
 map <C-T>n :tabnext<CR>
 map <C-T>p :tabprev<CR>
 
-function AlignAssignments() range
+function! AlignAssignments() range
     "Patterns needed to locate assignment operators...
     let ASSIGN_OP   = '[-+*/%|&]\?=\@<!=[=~]\@!'
     let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . ASSIGN_OP . '\)'
@@ -151,18 +151,46 @@ map <Esc>O5D <C-W><Left>
 "
 " SmartTab wrapper
 function! SmartTab()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
+    let col = col('.')
+    if !col || getline('.') =~ '^\s\{'.col.'\}' " we have no column or the line is all whitespace in front of the cursor
+        " [buffer,line,col,off] = getpos('.')
+        let pos = getpos('.')
+        let pos[2] += &sw
+        >
+        " setpos('.',[buffer,line,col,off])
+        call setpos('.',pos)
+        return ""
+    elseif getline('.')[col - 2] !~ '\k'
         return "\<tab>"
     else
         return "\<c-p>"
+    endif
+endfunction
+
+" SmartUnTab wrapper
+function! SmartUnTab()
+    let col = col('.')
+    if !col || getline('.') =~ '^\s\{'.col.'\}' " we have no column or the line is all whitespace in front of the cursor
+        " [buffer,line,col,off] = getpos('.')
+        let pos = getpos('.')
+        let pos[2] -= &sw
+        <
+        " setpos('.',[buffer,line,col,off])
+        call setpos('.',pos)
+        return ""
+    elseif getline('.')[col - 2] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-n>"
     endif
 endfunction
 "
 " turn on tab-completion
 " imap <Tab> <C-N>
 " turn on SmartTabs
-inoremap <tab> <c-r>=SmartTab()<cr>
+inoremap <Tab>   <c-r>=SmartTab()<cr>
+inoremap <S-Tab> <c-r>=SmartUnTab()<cr>
+inoremap <Esc>[Z <c-r>=SmartUnTab()<cr>
 "
 " Set up color swap function
 function! Swapcolor()
@@ -224,7 +252,7 @@ nmap <Esc>[F      $
 
 "
 " set a safe default for commentChar
-let b:commentChar='# '
+let b:commentChar=''
 "
 " look for JSP Fragments
 autocmd BufNewFile,Bufread *.jspf set filetype=jsp

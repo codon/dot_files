@@ -23,7 +23,7 @@ set cinoptions+=+2s,(1s,u0,m1
 set cindent
 set iskeyword&
 set iskeyword+=:
-set formatoptions-=c
+set formatoptions-=r
 compiler! perl
 "
 " compile current file
