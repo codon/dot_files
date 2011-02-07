@@ -72,7 +72,7 @@ map <C-T>p :tabprev<CR>
 
 function! AlignAssignments() range
     "Patterns needed to locate assignment operators...
-    let ASSIGN_OP   = '[-+*/%|&]\?=\@<!=[=~]\@!'
+    let ASSIGN_OP   = '[-+*/%|&:]\?=\@<!=[=~]\@!'
     let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . ASSIGN_OP . '\)'
 
 " I'm making this a range operator. No magicks.
