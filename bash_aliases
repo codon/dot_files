@@ -292,3 +292,13 @@ function mk_next_lib() {
         LIB=/site/perllibs-next/lib
     make && make test && make install
 }
+
+function running_next() {
+    for pid in $( cat */run/*.pid ) ; do
+        process=$( ps wup $pid | grep "\\<$pid\\>" )
+        if [ -n "$process" ] ; then
+            echo "$pid still running"
+            echo $process
+        fi
+    done
+}
