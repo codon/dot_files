@@ -17,8 +17,8 @@ set statusline+=%*
 "	set statusline+=%#error#
 "	set statusline+=%{StatuslineTabWarning()}
 "	set statusline+=%*
-set statusline+=%#error#
-set statusline+=%{&paste?'[paste]':''}
+set statusline+=%#warningmsg#
+set statusline+=%{&paste?'[*]':''}
 set statusline+=%*
 set statusline+=%m%h%r\                                  " modifed, help, readonly
 set statusline+=%=%25(%17(%c%V\,%l\ \(%L\)%)\ %p%%%)     " column, virtual column,

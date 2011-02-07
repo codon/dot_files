@@ -76,8 +76,8 @@ set statusline+=%*
 set statusline+=%#warningmsg#
 set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
 set statusline+=%*
-set statusline+=%#error#
-set statusline+=%{&paste?'[paste]':''}
+set statusline+=%#warningmsg#
+set statusline+=%{&paste?'[*]':''}
 set statusline+=%*
 set statusline+=%m%h%r\                                  " modifed, help, readonly
 set statusline+=%=%25(%17(%c%V\,%l\ \(%L\)%)\ %p%%%)     " column, virtual column,
