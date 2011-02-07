@@ -252,6 +252,38 @@ function call_stack() {
 
 alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
 
+function fetch_cs() {
+    host='csapi.next.marchex.com'
+    carrier=skype
+    while [ -n "$2" ] ; do
+        case $1 in
+            --carrier=*)
+                carrier=${1/#--carrier=/}
+                shift
+                ;;
+            --carrier|-c)
+                shift
+                carrier=$1
+                shift
+                ;;
+            --dev|-d)
+                host='localhost:8877'
+                shift
+                ;;
+            *)
+                echo "don't recognize option '$1'; did you mean --$1?"
+                return
+                ;;
+        esac
+    done
+
+    ctn=${1/#+/%2b}
+    url="http://$host/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
+    echo "curl $url"
+    curl $url
+    echo
+}
+
 function mk_next_lib() {
     /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
         PREFIX=/site/perllibs-next                \
