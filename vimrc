@@ -42,6 +42,17 @@ vmap <F1> <Esc>
 highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t\( \+\ze\)\?\|[^\t]\zs\t\+/
 
+" strip trailing whitespace on file open, file save
+autocmd BufRead,BufWritePre * call StripWhitespace()
+
+function! StripWhitespace()
+    if (&modifiable)
+        exe "normal mz"
+        %s/\s\+$//ge
+        exe "normal `z"
+    endif
+endfunction
+
 function! Comment() range
     execute a:firstline.','.a:lastline.'s/^/'.b:commentChar.'/'
 endfunction
