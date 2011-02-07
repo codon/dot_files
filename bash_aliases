@@ -218,7 +218,6 @@ alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
 
-alias mk_next_lib='/site/perl/perl-5.10.1-1/bin/perl Makefile.PL PREFIX=/site/perllibs-next INSTALLMAN1DIR=/site/perllibs-next/man1 INSTALLMAN3DIR=/site/perllibs-next/man3 LIB=/site/perllibs-next/lib'
 alias rdp='rdesktop -g 1280x900 terminal1sea.windows.marchex.com'
 alias gf='git fetch'
 alias gp='git push'
@@ -252,3 +251,12 @@ function call_stack() {
 }
 
 alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
+
+function mk_next_lib() {
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
+        PREFIX=/site/perllibs-next                \
+        INSTALLMAN1DIR=/site/perllibs-next/man1   \
+        INSTALLMAN3DIR=/site/perllibs-next/man3   \
+        LIB=/site/perllibs-next/lib
+    make && make test && make install
+}
