@@ -187,7 +187,7 @@ exe s:command
 CompilerSet errorformat=
     \%-G%.%#had\ compilation\ errors.,
     \%-G%.%#syntax\ OK,
-    \%-G%.%#used\ only\ once,
+    \%-GName\ used\ only\ once:\ possible\ typo,
     \%m\ at\ %f\ line\ %l.,
     \%+A%.%#\ at\ %f\ line\ %l\\,%.%#,
     \%+C%.%#
@@ -195,7 +195,7 @@ CompilerSet errorformat=
 " Explanation:
 " %-G%.%#had\ compilation\ errors.,  - Ignore the obvious.
 " %-G%.%#syntax\ OK,                 - Don't include the 'a-okay' message.
-" \%-G%.%#used\ only\ once,          - Ignore "used only once, possible typo" messages
+" %-GName "%*[s]"used\ only\ once,          - Ignore "used only once, possible typo" messages
 " %m\ at\ %f\ line\ %l.,             - Most errors...
 " %+A%.%#\ at\ %f\ line\ %l\\,%.%#,  - As above, including ', near ...'
 " %+C%.%#                            -   ... Which can be multi-line.
