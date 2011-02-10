@@ -31,8 +31,24 @@ function git_only() {
     fi
     git log $(git rev-parse --not --remotes --branches | grep -v $(git rev-parse $branch)) $branch $opts
 }
-
 export -f git_only
+
+function git_cleanup() {
+    if [[ $1 != "-f" ]]; then
+        echo "### Dry-run mode, specify -f to actually perform deletes."
+    fi
+    for branch in $(git branch -r --merged origin/master | sed 's/^\s\+//' | grep '\<origin/' | grep -v '\<origin/master\>'); do
+        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
+            name=$(echo $branch | sed 's/^origin\///')
+            if [[ $1 = "-f" ]]; then
+                git push --delete origin "$name"
+            else
+                echo git push --delete origin "$name"
+            fi
+        fi
+    done
+}
+export -f git_cleanup
 
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
