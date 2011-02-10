@@ -42,3 +42,8 @@
 	default = rebase
 [user]
 	name = Ivan Heffner
+[merge]
+	tool = vimdiff
+[mergetool]
+	tool = vimdiff
+	prompt = no
