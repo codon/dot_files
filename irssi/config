@@ -277,5 +277,5 @@ statusbar = {
 settings = {
   core = { real_name = "iJuan"; user_name = "codon"; nick = "codon"; };
   "fe-text" = { actlist_sort = "refnum"; };
-  "fe-common/core" = { theme = "insane"; };
+  "fe-common/core" = { theme = "codon"; };
 };
