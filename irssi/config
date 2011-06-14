@@ -279,3 +279,7 @@ settings = {
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = { theme = "codon"; };
 };
+hilights = (
+  { text = "https://"; nick = "yes"; word = "yes"; },
+  { text = "http://"; nick = "yes"; word = "yes"; }
+);
