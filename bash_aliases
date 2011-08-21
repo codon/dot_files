@@ -86,6 +86,12 @@ rehost() {
     popd > /dev/null
 }
 
+rspcap() {
+    for host in n{x,im}c{r,p}{1,2,3,4,5,6,7,8}.{sad,stg,qa,devint} vspbxuti1.sea ; do
+        rsync -vaz $host:/tmp/*.pcap $HOME/tcpdumps/$host/ 2>/dev/null
+    done
+}
+
 alias vi=$( which vim )
 alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
