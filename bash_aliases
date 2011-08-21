@@ -67,7 +67,6 @@ rehost() {
     # .gitconfig
     scp -r .ssh .vim* .bash* .screen* $host:.
     ssh $host "[[ -f .bash_history ]] && mv -i .bash_history .hist_bash"
-    ssh $host rm -f .bash_rc .bash_aliases
     popd > /dev/null
 }
 
