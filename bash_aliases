@@ -110,3 +110,5 @@ alias ga='git add'
 alias gap='git add -p'
 alias gl='git log'
 alias gls='git log --stat'
+
+alias port='PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin sudo port'
