@@ -21,6 +21,14 @@ function setPerl5lib () {
     export PERL5LIB
 }
 
+function git_push_workingtree() {
+    remote=$1
+    head_ref=$(git symbolic-ref HEAD)
+    remote_ref=$( git symbolic-ref HEAD | sed 's|heads|remotes/macbook|' )
+    git push $remote +$head_ref:$remote_ref
+}
+export -f git_push_workingtree
+
 function git_only() {
     opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
     rev=$(git rev-parse --revs-only "$@" 2>/dev/null)
