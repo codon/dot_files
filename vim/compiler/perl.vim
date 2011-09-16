@@ -14,6 +14,55 @@ function! Debug(string)
     endif
 endfunction
 
+function! s:Findlib_path(haystack, needle)
+    call Debug( 'find '.a:haystack.' -type d -name '.a:needle )
+
+    try
+        let found_lib = finddir(a:needle,a:haystack)
+        if strlen( found_lib ) != 0
+            call Debug( 'found_lib ['.found_lib.']' )
+            return '\ -I'.found_lib
+        else
+            call Debug( 'did not find '.a:needle.' in '.a:haystack )
+        endif
+    catch /^Vim\%((\a\+)\)\=:E486/ " pattern not found
+        " no match; do nothing
+    endtry
+
+    return ''
+endfunction
+
+function! s:Findlib_file(haystack, needle)
+    call Debug( 'find '.a:haystack.' -type d -name '.a:needle )
+
+    try
+        let matches = []
+        let paths = findfile(a:needle, a:haystack, -1) " -1 here means 'get all'
+        let lib_includes = ''
+        for path in paths
+            call Debug( 'looking at '.path )
+            " make sure this DBI matches our Perl version
+            if path =~ s:perl_version
+                call Debug( path.' matches '.s:perl_version )
+                " strip out extraneous path information
+                let dbi_lib = substitute(dbi,'\(perl/s:lib\)/.*','\1','')
+                " check to see if we have seen this path yet
+                if -1 == match(matches,dbi_lib)
+                    " add it to our paths to include
+                    let lib_includes .= '\ -I'.dbi_lib
+                    " and add it to our list of items seen
+                    let matches = matches + [dbi_lib]
+                else
+                    " skip this; we've aleardy seen it
+                endif
+            endif
+        endfor
+    catch /^Vim\%((\a\+)\)\=:E486/ " pattern not found
+        " no match; do nothing
+    endtry
+
+    return lib_includes
+endfunction
 " let's try to get the perl specified in the shebang line; if that does not exist, we fall back to $PATH
 let s:perl= getline(1)
 if s:perl =~ '^#!'
@@ -56,93 +105,16 @@ endif
 let s:perl_libs  = "\\ -I$LIBRARY_BASE/lib\\ -I$LIBRARY_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
     " search for next libs
-    let s:haystack = '/site/perllibs-next/**'
-    let s:needle = 'lib'
-    if s:debug
-        let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-        echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
-    endif
-    let s:next_lib = finddir(s:needle,s:haystack)
-    if strlen( s:next_lib )
-        let s:perl_libs .= '\ -I'.s:next_lib
-        if s:debug
-            let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-            echo '['.s:date.'] next_lib ['.s:next_lib.']'
-        endif
-    else
-        if s:debug
-            echo 'did not find '.s:needle.' in '.s:haystack
-        endif
-    endif
+    let s:perl_libs .= s:Findlib_path('/site/perllibs-next/**','lib')
 
     " search for xml libs
-    let s:haystack = '/site/perllibs-xml/**'
-    let s:needle = 'lib'
-    if s:debug
-        let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-        echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
-    endif
-    let s:xml_lib = finddir(s:needle,s:haystack)
-    if strlen( s:xml_lib )
-        let s:perl_libs .= '\ -I'.s:xml_lib
-        if s:debug
-            let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-            echo '['.s:date.'] xml_lib ['.s:xml_lib.']'
-        endif
-    else
-        if s:debug
-            echo 'did not find '.s:needle.' in '.s:haystack
-        endif
-    endif
+    let s:perl_libs .= s:Findlib_path('/site/perllibs-xml/**','lib')
 
     " need to get Apache2/RequestRec.pm
-    if s:debug
-        let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-        echo '['.s:date.'] find perllibs-apache'
-    endif
-    let s:haystack = '/site/httpd/**'
-    let s:needle = 'Apache2'
-    if s:debug
-        let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-        echo '['.s:date.'] find '.s:haystack.' -type d -name '.s:needle
-    endif
-    let s:apache_lib = finddir(s:needle,s:haystack) " we want to find Apache2/
-    if strlen( s:apache_lib )
-        let s:apache_lib = substitute(s:apache_lib,'/Apache2','','') " but include the containing dir
-        let s:perl_libs .= '\ -I'.s:apache_lib
-        if s:debug
-            let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-            echo '['.s:date.'] apache_lib ['.s:apache_lib.']'
-        endif
-    else
-        if s:debug
-            echo 'did not find '.s:needle.' in '.s:haystack
-        endif
-    endif
+    let s:perl_libs .= s:Findlib_path('/site/httpd/**','Apache2')
 
     " search for oracle libs
-    if s:debug
-        let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-        echo '['.s:date.'] find oracle_client libs'
-    endif
-    let s:dbis = findfile('DBI.pm','/site/oracle_client/**',-1) " -1 means 'get all'
-    let s:matches = []
-    for s:dbi in s:dbis
-        " make sure this DBI matches our Perl version
-        if s:dbi =~ s:perl_version
-            " strip out extraneous path information
-            let s:dbi_lib = substitute(s:dbi,'\(perl/s:lib\)/.*','\1','')
-            " check to see if we have seen this path yet
-            if -1 == match(s:matches,s:dbi_lib)
-                " add it to our paths to include
-                let s:perl_libs .= '\ -I'.s:dbi_lib
-                " and add it to our list of items seen
-                let s:matches = s:matches + [s:dbi_lib]
-            else
-                " skip this; we've aleardy seen it
-            endif
-        endif
-    endfor
+    let s:perl_libs .= s:Findlib_file('/site/oracle_client/**','DBI.pm')
 endif
 
 call Debug( 'done finding libs' )
