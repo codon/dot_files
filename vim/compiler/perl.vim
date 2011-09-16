@@ -7,6 +7,13 @@ let current_compiler = "perl-next"
 
 let s:debug = 0       " toggle debugging messages
 
+function! Debug(string)
+    if s:debug
+        let l:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
+        echo '['.l:date.'] debug: '.a:string
+    endif
+endfunction
+
 " let's try to get the perl specified in the shebang line; if that does not exist, we fall back to $PATH
 let s:perl= getline(1)
 if s:perl =~ '^#!'
@@ -22,39 +29,26 @@ elseif s:perl =~ '^\s*package\s\+\I\+'
 else
     let s:perl = 'perl'
 endif
-if s:debug
-    let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-    echo '['.s:date.'] perl: ['.s:perl.']'
-endif
+
+call Debug( "perl: [".s:perl."]" )
 
 " Get the perl version we are compiling against
 let s:perl_version_cmd = s:perl.' -v'
 let s:perl_version = system(s:perl_version_cmd)
 let s:perl_version = substitute(s:perl_version,'\nThis is perl, v\(\d\+\.\d\+\.\d\+\) .*built .*','\1','')
-if s:debug
-    let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-    echo '['.s:date.'] perl_version: ['.s:perl_version.']'
-endif
+call Debug( 'perl_version: ['.s:perl_version.']' )
 
 " Try get MARCHEX_BASE
 if strlen( $MARCHEX_BASE ) == 0
-    if s:debug
-        echo "no MARCHEX_BASE; guessing"
-    endif
+    call Debug( "no MARCHEX_BASE; guessing" )
     let s:buffer = getcwd().'/'.bufname("%")
     if s:buffer =~ "/next/"
-        if s:debug
-            echo "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits"
-        endif
+        call Debug( "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits" )
         let s:pat = '\(/next/\I\+\)/.*'
-        if s:debug
-            echo "substitute(".s:buffer.", ".s:pat.",'\1','')"
-        endif
+        call Debug( "substitute(".s:buffer.", ".s:pat.",'\1','')" )
         let $MARCHEX_BASE=substitute(s:buffer,s:pat,'\1','')
     endif
-    if s:debug
-        echo "Set MARCHEX_BASE [".$MARCHEX_BASE."]"
-    endif
+    call Debug( "Set MARCHEX_BASE [".$MARCHEX_BASE."]" )
 endif
 
 " set our starter libs
@@ -150,10 +144,7 @@ if has('file_in_path') && has('path_extra')
     endfor
 endif
 
-if s:debug
-    let s:date = system('perl -MTime::HiRes -e "print join q{.}, Time::HiRes::gettimeofday()"')
-    echo '['.s:date.'] done finding libs'
-endif
+call Debug( 'done finding libs' )
 
 if exists(":CompilerSet") != 2                   " older Vim always used :setlocal
   command -nargs=* CompilerSet setlocal <args>
