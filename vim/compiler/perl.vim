@@ -38,21 +38,22 @@ let s:perl_version = system(s:perl_version_cmd)
 let s:perl_version = substitute(s:perl_version,'\nThis is perl, v\(\d\+\.\d\+\.\d\+\) .*built .*','\1','')
 call Debug( 'perl_version: ['.s:perl_version.']' )
 
-" Try get MARCHEX_BASE
-if strlen( $MARCHEX_BASE ) == 0
-    call Debug( "no MARCHEX_BASE; guessing" )
+" Try get LIBRARY_BASE
+if strlen( $LIBRARY_BASE ) == 0
+    call Debug( "no LIBRARY_BASE; guessing" )
     let s:buffer = getcwd().'/'.bufname("%")
-    if s:buffer =~ "/next/"
+    let s:base_anchor = '/\%(next\|nim\)/'   " TIL: \%(..\) is vim's non-capturing pattern match
+    if s:buffer =~ s:base_anchor
         call Debug( "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits" )
-        let s:pat = '\(/next/\I\+\)/.*'
+        let s:pat = '\('.s:base_anchor.'\I\+\)/.*'
         call Debug( "substitute(".s:buffer.", ".s:pat.",'\1','')" )
-        let $MARCHEX_BASE=substitute(s:buffer,s:pat,'\1','')
+        let $LIBRARY_BASE=substitute(s:buffer,s:pat,'\1','')
     endif
-    call Debug( "Set MARCHEX_BASE [".$MARCHEX_BASE."]" )
+    call Debug( "Set LIBRARY_BASE [".$LIBRARY_BASE."]" )
 endif
 
 " set our starter libs
-let s:perl_libs  = "\\ -I$MARCHEX_BASE/lib\\ -I$MARCHEX_BASE/sharedlib"
+let s:perl_libs  = "\\ -I$LIBRARY_BASE/lib\\ -I$LIBRARY_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
     " search for next libs
     let s:haystack = '/site/perllibs-next/**'
