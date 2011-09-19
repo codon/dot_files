@@ -110,8 +110,13 @@ if has('file_in_path') && has('path_extra')
     " search for xml libs
     let s:perl_libs .= s:Findlib_path('/site/perllibs-xml/**','lib')
 
-    " need to get Apache2/RequestRec.pm
-    let s:perl_libs .= s:Findlib_path('/site/httpd/**','Apache2')
+    " we want to find Apache2/
+    let s:apache_lib = s:Findlib_path('/site/httpd/**','Apache2')
+    " but include the containing dir
+    if strlen( s:apache_lib )
+        let s:apache_lib = substitute(s:apache_lib,'/Apache2','','')
+        let s:perl_libs .= s:apache_lib
+    endif
 
     " search for oracle libs
     let s:perl_libs .= s:Findlib_file('/site/oracle_client/**','DBI.pm')
