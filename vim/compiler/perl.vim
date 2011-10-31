@@ -157,7 +157,7 @@ exe s:command
 CompilerSet errorformat=
     \%-G%.%#had\ compilation\ errors.,
     \%-G%.%#syntax\ OK,
-    \%-GName\ used\ only\ once:\ possible\ typo,
+    \%-G%.%#used\ only\ once\:\ possible\ typo%.%#,
     \%m\ at\ %f\ line\ %l.,
     \%+A%.%#\ at\ %f\ line\ %l\\,%.%#,
     \%+C%.%#
