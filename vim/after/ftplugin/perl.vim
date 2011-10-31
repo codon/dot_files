@@ -24,7 +24,10 @@ set cindent
 set iskeyword&
 set iskeyword+=:
 set formatoptions-=r
+let g:perl_compiler_base_anchor='/\%(next\|nim\|user_service\)/'   " TIL: \%(..\) is vim's non-capturing pattern match
+let g:perl_compiler_lib_paths=['/site/perllibs-dcm/**','/site/perllibs-nim/**','/site/perllibs-next/**','/site/perllibs-xml/**']
 compiler! perl
+let $MARCHEX_BASE=$LIBRARY_BASE
 "
 " compile current file
 map !! :make<CR>
