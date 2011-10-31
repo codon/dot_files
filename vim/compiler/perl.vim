@@ -91,7 +91,7 @@ call Debug( 'perl_version: ['.s:perl_version.']' )
 if strlen( $LIBRARY_BASE ) == 0
     call Debug( "no LIBRARY_BASE; guessing" )
     let s:buffer = getcwd().'/'.bufname("%")
-    let s:base_anchor = '/\%(next\|nim\)/'   " TIL: \%(..\) is vim's non-capturing pattern match
+    let s:base_anchor = g:perl_compiler_base_anchor || '.'
     if s:buffer =~ s:base_anchor
         call Debug( "getcwd().bufname(%) seems to look promising; trying to strip off extraneous bits" )
         let s:pat = '\('.s:base_anchor.'\I\+\)/.*'
@@ -104,11 +104,12 @@ endif
 " set our starter libs
 let s:perl_libs  = "\\ -I$LIBRARY_BASE/lib\\ -I$LIBRARY_BASE/sharedlib"
 if has('file_in_path') && has('path_extra')
-    " search for next libs
-    let s:perl_libs .= s:Findlib_path('/site/perllibs-next/**','lib')
-
-    " search for xml libs
-    let s:perl_libs .= s:Findlib_path('/site/perllibs-xml/**','lib')
+    " iterate over g:perl_compiler_lib_paths looking for lib/
+    if !empty( g:perl_compiler_lib_paths )
+        for s:haystack in g:perl_compiler_lib_paths
+            let s:perl_libs .= s:Findlib_path(s:haystack, 'lib')
+        endfor
+    endif
 
     " we want to find Apache2/
     let s:apache_lib = s:Findlib_path('/site/httpd/**','Apache2')
