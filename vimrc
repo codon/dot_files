@@ -251,9 +251,11 @@ endfunction
 " Convinience function key maps
 set pastetoggle=<F2> " not redundant
 map <F2> :set paste!<CR>
-map <F3> :set number!<CR>
-map <F4> :set wrap!<CR>
-map <F5> :set list!<CR>
+map <F3> :set list!<CR>
+map <F4> :GundoToggle<CR>
+map <F5> :GundoRenderGraph<CR>
+map <F6> :set number!<CR>
+map <F7> :set wrap!<CR>
 map <F8> :call Swapcolor()<CR>
 "
 " Map <Home> and <End> on M$ keyboard to do useful home/end function
