@@ -19,13 +19,13 @@ IFS='
 if [[ $(hostname) =~ 'slugfest' || $(hostname) =~ 'bumblebee' ]] ; then
 	for x in $( ls -d /site/{marchex,perl,perllibs-xml,pulley} ) ; do
 # 		echo "find $x ..."
-		for y in $( find $x -name build -prune -o -name packages -prune -o -type d -name bin ) ; do
+		for y in $( find $x -maxdepth 5 -name build -prune -o -name packages -prune -o -type d -name bin ) ; do
 # 			echo "export PATH=$y:\$PATH"
 			export PATH=$y:$PATH
 		done
 	done
 else
-	for x in $( find /site -type d -name bin ) ; do
+	for x in $( find /site -maxdepth 5 -type d -name bin ) ; do
 		export PATH=$x:$PATH
 	done
 	for x in $( find /site -type d -path '/site/perllibs*' -name lib ) ; do
