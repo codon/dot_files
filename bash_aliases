@@ -89,7 +89,7 @@ rehost() {
     local host="$1"
     pushd ~ > /dev/null
     # .gitconfig
-    scp -r .ssh .vim* .bash* .screen* $host:.
+    scp -r .git* .ssh .vim* .bash* .screen* $host:.
     ssh $host "[[ -f .bash_history ]] && mv -i .bash_history .hist_bash"
     popd > /dev/null
 }
