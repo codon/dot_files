@@ -25,12 +25,14 @@ if [[ $(hostname) =~ 'slugfest' || $(hostname) =~ 'bumblebee' ]] ; then
 		done
 	done
 else
-	for x in $( find /site -maxdepth 5 -type d -name bin ) ; do
-		export PATH=$x:$PATH
-	done
-	for x in $( find /site -type d -path '/site/perllibs*' -name lib ) ; do
-		export PERL5LIB=$x:$PERL5LIB
-	done
+    if [ -d /site ] ; then
+        for x in $( find /site -maxdepth 5 -type d -name bin ) ; do
+            export PATH=$x:$PATH
+        done
+        for x in $( find /site -type d -path '/site/perllibs*' -name lib ) ; do
+            export PERL5LIB=$x:$PERL5LIB
+        done
+    fi
 fi
 
 ORACLE_HOME=/opt/oracle/product/current
