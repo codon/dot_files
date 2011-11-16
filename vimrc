@@ -24,6 +24,7 @@ set modelines=5
 " - ignore whitespace
 set diffopt=filler,vertical,iwhite
 set comments=
+call pathogen#infect()
 "
 " turn on syntax highlighting if using a color terminal
 if &t_Co > 1
