@@ -1,5 +1,10 @@
 servers = (
   { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
+  {
+    address = "irc.freenode.net";
+    chatnet = "FreeNode";
+    port = "6667";
+  },
   { address = "irc.efnet.org"; chatnet = "EFNet"; port = "6667"; },
   { 
     address = "irc.undernet.org";
