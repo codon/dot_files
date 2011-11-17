@@ -203,7 +203,14 @@ endfunction
 inoremap <Tab>   <c-r>=SmartTab()<cr>
 inoremap <S-Tab> <c-r>=SmartUnTab()<cr>
 inoremap <Esc>[Z <c-r>=SmartUnTab()<cr>
-"
+
+function! Today()
+    call setline( getpos('.')[1], strpart(system('date +%F'),0,10) )
+    return ""
+endfunction
+inoremap <Leader>td <c-r>=Today()<cr>
+nnoremap <Leader>td :call Today()<cr>
+
 " Set up color swap function
 function! Swapcolor()
     if exists("b:syntax_on")
