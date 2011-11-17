@@ -54,6 +54,23 @@ function git_only() {
 }
 export -f git_only
 
+function git_cleanup() {
+    if [[ $1 != "-f" ]]; then
+        echo "### Dry-run mode, specify -f to actually perform deletes."
+    fi
+    for branch in $(git branch -r --merged origin/master | sed 's/^\s\+//' | grep '\<origin/' | grep -v '\<origin/master\>'); do
+        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
+            name=$(echo $branch | sed 's/^origin\///')
+            if [[ $1 = "-f" ]]; then
+                git push --delete origin "$name"
+            else
+                echo git push --delete origin "$name"
+            fi
+        fi
+    done
+}
+export -f git_cleanup
+
 function cgtest() {
     (
         cd $HOME/git/next
@@ -214,7 +231,6 @@ alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
 
-alias mk_next_lib='/site/perl/perl-5.10.1-1/bin/perl Makefile.PL PREFIX=/site/perllibs-next INSTALLMAN1DIR=/site/perllibs-next/man1 INSTALLMAN3DIR=/site/perllibs-next/man3 LIB=/site/perllibs-next/lib'
 alias rdp='rdesktop -g 1280x900 terminal1sea.windows.marchex.com'
 alias gf='git fetch'
 alias gp='git push'
@@ -248,3 +264,54 @@ function call_stack() {
 }
 
 alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
+
+function fetch_cs() {
+    host='csapi.next.marchex.com'
+    carrier=skype
+    while [ -n "$2" ] ; do
+        case $1 in
+            --carrier=*)
+                carrier=${1/#--carrier=/}
+                shift
+                ;;
+            --carrier|-c)
+                shift
+                carrier=$1
+                shift
+                ;;
+            --dev|-d)
+                host='localhost:8877'
+                shift
+                ;;
+            *)
+                echo "don't recognize option '$1'; did you mean --$1?"
+                return
+                ;;
+        esac
+    done
+
+    ctn=${1/#+/%2b}
+    url="http://$host/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
+    echo "curl $url"
+    curl $url
+    echo
+}
+
+function mk_next_lib() {
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
+        PREFIX=/site/perllibs-next                \
+        INSTALLMAN1DIR=/site/perllibs-next/man1   \
+        INSTALLMAN3DIR=/site/perllibs-next/man3   \
+        LIB=/site/perllibs-next/lib
+    make && make test && make install
+}
+
+function running_next() {
+    for pid in $( cat */run/*.pid ) ; do
+        process=$( ps wup $pid | grep "\\<$pid\\>" )
+        if [ -n "$process" ] ; then
+            echo "$pid still running"
+            echo $process
+        fi
+    done
+}
