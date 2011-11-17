@@ -39,6 +39,9 @@ ORACLE_HOME=/opt/oracle/product/current
 PATH=$PATH:$ORACLE_HOME/bin
 
 # fix some environment issues
+if [[ "$OSTYPE" =~ 'darwin' ]] ; then
+    /bin/stty discard '^-'
+fi
 # stty erase 
 
 export PATH ORACLE_HOME
