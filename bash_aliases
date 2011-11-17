@@ -100,6 +100,16 @@ rspcap() {
     done
 }
 
+function mk_user_lib() {
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
+        PREFIX=$HOME/git/user_service/perllibs
+        INSTALLMAN1DIR=$HOME/git/user_service/perllibs/man1   \
+        INSTALLMAN3DIR=$HOME/git/user_service/perllibs/man3   \
+        LIB=$HOME/git/user_service/perllibs
+    make && make test && make install
+}
+
+
 alias vi=$( which vim )
 alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
