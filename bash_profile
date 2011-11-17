@@ -7,7 +7,7 @@ fi
 
 # User specific environment and startup programs
 
-PATH=$PATH:/opt/local/pgsql/bin:$HOME/bin
+PATH=/usr/local/bin:$PATH:/opt/local/pgsql/bin:$HOME/bin
 # ~mds set path to manually installed java
 TUNNEL_HOST=iheffner.com
 export TUNNEL_HOST
