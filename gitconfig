@@ -42,7 +42,7 @@
 	default = rebase
 [user]
 	name = Ivan Heffner
-	email = iheffner@marchex.com
+	email = iheffner@gmail.com
 [merge]
 	tool = vimdiff
 [mergetool]
