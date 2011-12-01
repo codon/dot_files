@@ -280,6 +280,7 @@ autocmd BufNewFile,Bufread *.jspf set filetype=jsp
 "
 " set It's All Text comment leader (for Bugzilla)
 autocmd BufNewFile,Bufread */itsalltext/* let b:commentChar='> '
+autocmd BufNewFile,Bufread */bash-fc-*    let b:commentChar='#'
 "
 " call appropriate language-specific function based on file type
 autocmd FileType java   call Java()
