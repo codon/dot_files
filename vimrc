@@ -275,6 +275,8 @@ nmap <Esc>[F      $
 " set a safe default for commentChar
 let b:commentChar=''
 "
+" vim-pad buffer dir
+let g:pad_dir=$HOME."/.vim/buffers/"
 " look for JSP Fragments
 autocmd BufNewFile,Bufread *.jspf set filetype=jsp
 "
