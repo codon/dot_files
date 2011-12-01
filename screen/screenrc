@@ -1,0 +1,49 @@
+# no visual bell
+vbell off
+# no bell message
+bell_msg ""
+
+# detach on hangup
+autodetach on
+
+# no copyright page
+startup_message off
+
+# Always use the hard status
+hardstatus alwayslastline
+# And set it to something really useful
+hardstatus string '[a] %?%-Lw%?%{r}%45>(%{b}%n*%f%t%?(%u)%?%{r})%{d}%+LW'
+
+# fix annoying  /  problem
+#bindkey -d -k kb stuff "\177"
+
+# turn on multiuser mode; still have to do acladd to let anyone in
+#multiuser on
+
+# get me access to higher screens (let's hope I never need to go to 20|)
+bind -c selectHighs 0 select 10
+bind -c selectHighs 1 select 11
+bind -c selectHighs 2 select 12
+bind -c selectHighs 3 select 13
+bind -c selectHighs 4 select 14
+bind -c selectHighs 5 select 15
+bind -c selectHighs 6 select 16
+bind -c selectHighs 7 select 17
+bind -c selectHighs 8 select 18
+bind -c selectHighs 9 select 19
+
+bind - command -c selectHighs
+
+# get a useful environment
+# source /Domain/windows.marchex.com/Users/iheffner/.bash_profile
+
+# default screen session
+screen -t code     0
+screen -t ctl      1
+screen -t git      2
+screen -t logs     3
+screen -t shared   4
+screen -t asterisk 5
+screen -t database 6
+
+# vim: ft=screen
