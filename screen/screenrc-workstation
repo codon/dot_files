@@ -1,0 +1,75 @@
+# no visual bell
+vbell off
+# no bell message
+bell_msg ""
+
+# detach on hangup
+autodetach on
+
+# no copyright page
+startup_message off
+
+# change the meta escape sequence
+escape ^tt
+
+# Always use the hard status
+hardstatus alwayslastline
+# And set it to something really useful
+hardstatus string '[t] %?%-Lw%?%{r}%45>(%{b}%n*%f%t%?(%u)%?%{r})%{d}%+LW'
+
+# fix annoying  /  problem
+#bindkey -d -k kb stuff "\177"
+
+# turn on multiuser mode; still have to do acladd to let anyone in
+#multiuser on
+
+# get me access to higher screens (let's hope I never need to go to 20|)
+bind -c selectHighs 0 select 10
+bind -c selectHighs 1 select 11
+bind -c selectHighs 2 select 12
+bind -c selectHighs 3 select 13
+bind -c selectHighs 4 select 14
+bind -c selectHighs 5 select 15
+bind -c selectHighs 6 select 16
+bind -c selectHighs 7 select 17
+bind -c selectHighs 8 select 18
+bind -c selectHighs 9 select 19
+
+bind - command -c selectHighs
+
+# get a useful environment
+# source /Domain/windows.marchex.com/Users/iheffner/.bash_profile
+
+# default screen session
+screen -t call_proc      1
+stuff 'cd ~/git/dcm/call_processor'^J
+stuff 'screen -US call_settings'^J
+screen -t tbd    2
+stuff 'cd ~/git/dcm/'^J
+screen -t call_settings  3
+stuff 'cd ~/git/dcm/call_settings'^J
+stuff 'screen -US call_settings'^J
+screen -t publisher      4
+stuff 'cd ~/git/dcm/'^J
+stuff 'screen -US pub'^J
+screen -t logproc        5
+stuff 'cd ~/git/dcm/log_processor'^J
+stuff 'screen -US logproc'^J
+screen -t nim            6
+stuff 'cd ~/git/nim'^J
+stuff 'sock'^J
+stuff 'git fetch'^J
+stuff 'screen -US nim'^J
+screen -t user_service   7
+stuff 'cd ~/git/user_service'^J
+stuff 'sock'^J
+stuff 'git fetch'^J
+stuff 'screen -US user_service'^J
+screen -t next           8
+stuff 'cd ~/git/next'^J
+stuff 'sock'^J
+stuff 'git fetch'^J
+stuff 'screen -US next'^J
+screen -t misc           0
+
+# vim: ft=screen
