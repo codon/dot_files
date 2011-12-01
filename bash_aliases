@@ -89,7 +89,7 @@ rehost() {
     local host="$1"
     pushd ~ > /dev/null
     # .gitconfig
-    scp -r .ssh .vim* .bash* .screen* $host:.
+    scp -r .git* .ssh .vim* .bash* .screen* $host:.
     ssh $host "[[ -f .bash_history ]] && mv -i .bash_history .hist_bash"
     popd > /dev/null
 }
@@ -100,11 +100,21 @@ rspcap() {
     done
 }
 
+function mk_user_lib() {
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
+        PREFIX=$HOME/git/user_service/perllibs
+        INSTALLMAN1DIR=$HOME/git/user_service/perllibs/man1   \
+        INSTALLMAN3DIR=$HOME/git/user_service/perllibs/man3   \
+        LIB=$HOME/git/user_service/perllibs
+    make && make test && make install
+}
+
+
 alias vi=$( which vim )
 alias gi='gvim -rv'
 alias aoeu='xmodmap ~/.anti-dvorak'
 alias asdf='xmodmap ~/.qwerty'
-alias htunnel='ssh -L 5901:ibook.iheffner.com:5900 -p2222 root@heimdall.iheffner.com'
+alias htunnel='ssh -L 5901:littleone.iheffner.com:5900 -p2222 root@heimdall.iheffner.com'
 alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
@@ -120,6 +130,7 @@ alias ga='git add'
 alias gap='git add -p'
 alias gl='git log'
 alias gls='git log --stat'
+alias gg='git graph'
 alias tcpd='sudo tcpdump -p -i any -s0 -v -w /tmp/$(hostname).$(date +%F-%T).pcap udp and not port 53 and not arp'
 alias rstcpd='for h in nxc{r{1,2},p{1,2,3,4,5,6,7,8}}.sad ; do rsync -varz $h:/tmp/*.pcap tcpdumps/$h/ ; done'
 alias path_clean='eval $( perl -wle '\''my %path = map { $_ => 1 } grep { !/tags/ && !m[lib/\w+/bin] && 6>scalar(()=m[/]g) } split /:/, $ENV{PATH}; $"=q{:}; print "export PATH=".join $", keys %path'\'' )'

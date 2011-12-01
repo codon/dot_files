@@ -6,8 +6,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-
-PATH=$PATH:/opt/local/pgsql/bin:$HOME/bin
+PATH=/usr/local/bin:$PATH:/opt/local/pgsql/bin:$HOME/bin
 # ~mds set path to manually installed java
 TUNNEL_HOST=iheffner.com
 export TUNNEL_HOST
@@ -37,11 +36,18 @@ fi
 
 ORACLE_HOME=/opt/oracle/product/current
 PATH=$PATH:$ORACLE_HOME/bin
+EDITOR=$(which vim)
 
 # fix some environment issues
+if [[ "$OSTYPE" =~ 'darwin' ]] ; then
+    /bin/stty discard '^-'
+fi
 # stty erase 
 
-export PATH ORACLE_HOME
+# set \ev to edit-and-execute current command
+bind '"\ev"':edit-and-execute-command
+
+export PATH ORACLE_HOME EDITOR
 unset USERNAME
 
 # .bash_login
