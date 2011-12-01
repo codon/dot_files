@@ -203,7 +203,14 @@ endfunction
 inoremap <Tab>   <c-r>=SmartTab()<cr>
 inoremap <S-Tab> <c-r>=SmartUnTab()<cr>
 inoremap <Esc>[Z <c-r>=SmartUnTab()<cr>
-"
+
+function! Today()
+    call setline( getpos('.')[1], strpart(system('date +%F'),0,10) )
+    return ""
+endfunction
+inoremap <Leader>td <c-r>=Today()<cr>
+nnoremap <Leader>td :call Today()<cr>
+
 " Set up color swap function
 function! Swapcolor()
     if exists("b:syntax_on")
@@ -268,11 +275,14 @@ nmap <Esc>[F      $
 " set a safe default for commentChar
 let b:commentChar=''
 "
+" vim-pad buffer dir
+let g:pad_dir=$HOME."/.vim/buffers/"
 " look for JSP Fragments
 autocmd BufNewFile,Bufread *.jspf set filetype=jsp
 "
 " set It's All Text comment leader (for Bugzilla)
 autocmd BufNewFile,Bufread */itsalltext/* let b:commentChar='> '
+autocmd BufNewFile,Bufread */bash-fc-*    let b:commentChar='#'
 "
 " call appropriate language-specific function based on file type
 autocmd FileType java   call Java()
