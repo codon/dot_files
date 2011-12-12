@@ -13,3 +13,12 @@
 [submodule "vim/bundle/pad"]
 	path = vim/bundle/pad
 	url = git://github.com/vim-scripts/vim-pad.git
+[submodule "vim/bundle/vim-git"]
+	path = vim/bundle/vim-git
+	url = git://github.com/tpope/vim-git.git
+[submodule "vim/bundle/vim-repeat"]
+	path = vim/bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "vim/bundle/vim-comentary"]
+	path = vim/bundle/vim-comentary
+	url = git://github.com/tpope/vim-commentary.git
