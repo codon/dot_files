@@ -4,3 +4,5 @@
 .DS_Store
 .*sw?
 Thumbs.db
+*.orig
+afiedt.buf

@@ -184,13 +184,19 @@ function! SmartUnTab()
     let col = col('.')
     if !col || getline('.') =~ '^\s\{'.col.'\}' " we have no column or the line is all whitespace in front of the cursor
         " [buffer,line,col,off] = getpos('.')
+        " get current position
         let pos = getpos('.')
+        " determine new position as current position minus the shiftwidth
         let pos[2] -= &sw
+        " undindent one shiftwidth
         <
         " setpos('.',[buffer,line,col,off])
+        " reset position to be "where we were" on the line
         call setpos('.',pos)
         return ""
     elseif getline('.')[col - 2] !~ '\k'
+        " What I want to do here is to remove a shift-width's worth of
+        " whitespace at the current location
         return "\<c-o>".&sw."X"
     else
         return "\<c-n>"
