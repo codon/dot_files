@@ -37,21 +37,40 @@ bind -c selectHighs 9 select 19
 
 bind - command -c selectHighs
 
-# get a useful environment
-# source /Domain/windows.marchex.com/Users/iheffner/.bash_profile
-
 # default screen session
-screen -t sudo   0
-scrollback 20000
+screen -t qa1               1
 stuff 'source ~/.bash_profile'^J
-screen -t git    2
-scrollback 20000
+stuff 'sock'^J
+stuff 'export TIER="1.qa"'^J
+stuff 'screen -US qa1 -c $HOME/.screen/screenrc-qa1'^J
+
+screen -t qa2               2
 stuff 'source ~/.bash_profile'^J
-screen -t things 3
-scrollback 20000
+stuff 'sock'^J
+stuff 'screen -US qa2 -c $HOME/.screen/screenrc-qa2'^J
+
+screen -t qa3               3
 stuff 'source ~/.bash_profile'^J
-screen -t 'stuff'  1
-scrollback 20000
+stuff 'sock'^J
+stuff 'screen -US qa3 -c $HOME/.screen/screenrc-qa2'^J
+
+screen -t blackbox          4
 stuff 'source ~/.bash_profile'^J
+stuff 'sock'^J
+stuff 'ssh vspbxuti1.sea'^J
+
+screen -t prod              5
+stuff 'source ~/.bash_profile'^J
+stuff 'sock'^J
+stuff 'screen -US prod -c $HOME/.screen/screenrc-tier'^J
+
+screen -t build             6
+stuff 'source ~/.bash_profile'^J
+stuff 'sock'^J
+
+screen -t hardtop           0
+stuff 'source ~/.bash_profile'^J
+stuff 'sock'^J
+stuff 'screen -US qa1 -c $HOME/.screen/screenrc-tier'^J
 
 # vim: ft=screen
