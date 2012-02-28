@@ -46,13 +46,12 @@
 [user]
 	name = Ivan Heffner
 	email = iheffner@marchex.com
-#[merge]
-#	tool = vimdiff
-#[mergetool]
-#	tool = vimdiff
-#	prompt = no
 [merge]
     tool = threesome
+[mergetool]
+	tool = vimdiff
+	prompt = no
 [mergetool "threesome"]
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
     trustExitCode = true
+	prompt = no
