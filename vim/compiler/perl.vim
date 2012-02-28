@@ -3,7 +3,7 @@
 if exists("current_compiler")
     finish
 endif
-let current_compiler = "perl-next"
+let current_compiler = "perl.vim"
 
 let s:debug = 0       " toggle debugging messages
 
