@@ -6,12 +6,10 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-PATH=/usr/local/bin:$PATH:/opt/local/pgsql/bin:$HOME/bin
+PATH=/opt/local/pgsql/bin:$HOME/bin:$HOME/svn/depot_tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # ~mds set path to manually installed java
 TUNNEL_HOST=iheffner.com
 export TUNNEL_HOST
-
-PATH=$PATH:/opt/local/bin:/opt/local/sbin:/usr/java/jre1.5.0_06/bin:$HOME/bin:$HOME/svn/depot_tools
 
 IFS='
 '
@@ -34,7 +32,7 @@ else
     fi
 fi
 
-ORACLE_HOME=/opt/oracle/product/current
+ORACLE_HOME=/site/oracle_client/client-11.2.0.1
 PATH=$PATH:$ORACLE_HOME/bin
 EDITOR=$(which vim)
 
@@ -64,10 +62,3 @@ if [ -f /opt/local/etc/bash_completion ]; then
 	source /opt/local/etc/bash_completion
 fi
 
-##
-# Your previous /Users/iheffner/.bash_profile file was backed up as /Users/iheffner/.bash_profile.macports-saved_2011-03-22_at_16:49:08
-##
-
-# MacPorts Installer addition on 2011-03-22_at_16:49:08: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
