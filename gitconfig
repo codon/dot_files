@@ -56,3 +56,5 @@
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
     trustExitCode = true
 	prompt = no
+[status]
+	relativePaths = false
