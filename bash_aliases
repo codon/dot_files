@@ -315,17 +315,30 @@ function fetch_cs() {
 
     ctn=${1/#+/%2b}
     url="http://$host/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
-    echo "curl $url"
+    echo "curl '$url'"
     curl $url
     echo
 }
 
-function mk_next_lib() {
-    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
-        PREFIX=/site/perllibs-next                \
-        INSTALLMAN1DIR=/site/perllibs-next/man1   \
-        INSTALLMAN3DIR=/site/perllibs-next/man3   \
-        LIB=/site/perllibs-next/lib
+function mk_lib() {
+    target=$1
+    if [ -z "$target" ] ; then
+        echo "please specify the target installation path"
+        return
+    fi
+    if [ ! -d $target ] ; then
+        echo "$target does not exist. create? [Y/n] "
+        read create_target
+        # if [[ [ "Y" eq $create_target ] || [ "y" eq $create_target ] || [ -z "$create_target" ] ]] ; then
+        if [[ "Y" -eq $create_target || "y" -eq $create_target || -z "$create_target" ]] ; then
+            mkdir $target
+        fi
+    fi
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL    \
+        PREFIX=$target                               \
+        INSTALLMAN1DIR=$target                       \
+        INSTALLMAN3DIR=$target                       \
+        LIB=$target
     make && make test && make install
 }
 
@@ -371,26 +384,4 @@ function dcm_start() {
     for host in $* ; do
         action_all_dcm_services $host start "$passwd"
     done
-}
-
-function mk_lib() {
-    target=$1
-    if [ -z "$target" ] ; then
-        echo "please specify the target installation path"
-        return
-    fi
-    if [ ! -d $target ] ; then
-        echo "$target does not exist. create? [Y/n] "
-        read create_target
-        # if [[ [ "Y" eq $create_target ] || [ "y" eq $create_target ] || [ -z "$create_target" ] ]] ; then
-        if [[ "Y" -eq $create_target || "y" -eq $create_target || -z "$create_target" ]] ; then
-            mkdir $target
-        fi
-    fi
-    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL    \
-        PREFIX=$target                               \
-        INSTALLMAN1DIR=$target                       \
-        INSTALLMAN3DIR=$target                       \
-        LIB=$target
-    make && make test && make install
 }
