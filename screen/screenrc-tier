@@ -9,7 +9,7 @@ autodetach on
 # no copyright page
 startup_message off
 
-# change the meta escape sequence
+# change the tiers escape sequence
 escape ^tt
 
 # Always use the hard status
