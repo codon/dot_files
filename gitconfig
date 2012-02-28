@@ -47,7 +47,8 @@
 	name = Ivan Heffner
 	email = iheffner@marchex.com
 [merge]
-    tool = threesome
+	tool = vimdiff
+#	tool = threesome
 [mergetool]
 	tool = vimdiff
 	prompt = no
