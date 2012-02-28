@@ -72,8 +72,13 @@ function git_cleanup() {
 export -f git_cleanup
 
 function cgtest() {
+    if [ -z "$1" ] ; then
+        echo "where should I start?"
+        return -1;
+    fi
+    base=$1
     (
-        cd $HOME/git/next
+        cd $HOME/git/$base
         for dir in $( ls ) ; do
             if [ -d "$dir/templates" ] ; then
                 (
