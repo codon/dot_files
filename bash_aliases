@@ -253,16 +253,17 @@ alias port='PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/u
 function call_stack() {
     $HOME/bin/mxctl.pl $* \
             storage_api\
+            cs_redis_conf\
+            cs_publisher\
             call_settings\
+            pp_ast_conf\
+            playfile_publisher\
             call_processor\
             cp_ast_conf\
             cr_opensips_conf\
-            pp_ast_conf\
-            playfile_publisher\
-            user_api\
-            mgmt_api\
-            mgmt_ui\
             log_mover\
+            listing_grinder\
+            queue_grinder\
             log_processor
 }
 
