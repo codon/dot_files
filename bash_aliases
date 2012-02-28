@@ -267,6 +267,20 @@ function call_stack() {
             log_processor
 }
 
+function nim_stack() {
+    $HOME/bin/mxctl.pl $* \
+            redis_conf\
+            redis_publisher\
+            product_api\
+            call_api\
+            queue_grinder\
+            call_api\
+            call_processor_httpd\
+            call_processor_asterisk_conf\
+            call_router\
+            log_processor
+}
+
 alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
 
 function fetch_cs() {
