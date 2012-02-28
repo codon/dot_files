@@ -333,3 +333,37 @@ function running_next() {
         fi
     done
 }
+
+function action_all_dcm_services() {
+    host=$1
+    action=$2
+    passwd=$3
+
+    if [ -z "$passwd" ]
+    then
+        read -s -p "Sudo password for $host: " passwd
+    fi
+
+    /usr/bin/ssh $host << EOS
+        echo $passwd | sudo -l;
+        for service in /etc/init.d/dcm-*;
+        do
+            sudo \$service $action;
+        done;
+        sudo -k # kill sudo cred;
+EOS
+}
+
+function dcm_stop() {
+    read -s -p "Sudo password: " passwd
+    for host in $* ; do
+        action_all_dcm_services $host stop "$passwd"
+    done
+}
+
+function dcm_start() {
+    read -s -p "Sudo password: " passwd
+    for host in $* ; do
+        action_all_dcm_services $host start "$passwd"
+    done
+}
