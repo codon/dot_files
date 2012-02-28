@@ -62,3 +62,4 @@ if [ -f /opt/local/etc/bash_completion ]; then
 	source /opt/local/etc/bash_completion
 fi
 
+[[ -r "$HOME/.smartcd_config" ]] && source ~/.smartcd_config

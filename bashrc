@@ -102,3 +102,5 @@ unset USERNAME
 
 # connect to a screen if it is running
 #/usr/bin/screen -xA
+
+[[ -r "$HOME/.smartcd_config" ]] && source ~/.smartcd_config
