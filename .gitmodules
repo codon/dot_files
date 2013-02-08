@@ -25,3 +25,6 @@
 [submodule "vim/bundle/vim-tabular"]
 	path = vim/bundle/vim-tabular
 	url = git://github.com/godlygeek/tabular.git
+[submodule "vim/bundle/vim-node.js"]
+	path = vim/bundle/vim-node.js
+	url = git://github.com/mmalecki/vim-node.js.git
