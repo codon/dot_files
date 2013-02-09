@@ -247,6 +247,7 @@ alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
 
+alias tunnel='ssh -D40022 -t -A nosecone.marchex.com ssh -A hardtop'
 alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
