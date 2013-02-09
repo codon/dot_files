@@ -38,7 +38,7 @@
 	graph = log --all --graph --oneline --decorate
 	hist = log --graph --oneline --decorate
 [rerere]
-    enabled = true
+	enabled = true
 [push]
 	default = current
 [pull]
@@ -53,8 +53,8 @@
 	tool = vimdiff
 	prompt = no
 [mergetool "threesome"]
-    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
-    trustExitCode = true
+	cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
+	trustExitCode = true
 	prompt = no
 [status]
 	relativePaths = false

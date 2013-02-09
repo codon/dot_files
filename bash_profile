@@ -13,24 +13,29 @@ export TUNNEL_HOST
 
 IFS='
 '
-if [[ $(hostname) =~ 'slugfest' || $(hostname) =~ 'bumblebee' ]] ; then
-	for x in $( ls -d /site/{marchex,perl,perllibs-xml,pulley} ) ; do
-# 		echo "find $x ..."
-		for y in $( find $x -maxdepth 5 -name build -prune -o -name packages -prune -o -type d -name bin ) ; do
-# 			echo "export PATH=$y:\$PATH"
-			export PATH=$y:$PATH
-		done
-	done
-else
-    if [ -d /site ] ; then
-        for x in $( find /site -maxdepth 5 -type d -name bin ) ; do
-            export PATH=$x:$PATH
+
+hostname=$(hostname)
+case $hostname in
+    slugfest|bumblebee|cvs|git|vcs*)
+        for x in $( ls -d /site/{marchex,perl,perllibs-xml,pulley} ) ; do
+#             echo "find $x ..."
+            for y in $( find $x -maxdepth 3 -name build -prune -o -name packages -prune -o -type d -name bin ) ; do
+#                 echo "export PATH=$y:\$PATH"
+                export PATH=$y:$PATH
+            done
         done
-        for x in $( find /site -maxdepth 5 -type d -path '/site/perllibs*' -name lib ) ; do
-            export PERL5LIB=$x:$PERL5LIB
-        done
-    fi
-fi
+        ;;
+    *)
+        if [ -d /site ] ; then
+            for x in $( find /site -maxdepth 3 -type d -name bin ) ; do
+                export PATH=$x:$PATH
+            done
+            for x in $( find /site -maxdepth 3 -type d -path '/site/perllibs*' -name lib ) ; do
+                export PERL5LIB=$x:$PERL5LIB
+            done
+        fi
+        ;;
+esac
 
 ORACLE_HOME=/site/oracle_client/client-11.2.0.1
 PATH=$PATH:$ORACLE_HOME/bin

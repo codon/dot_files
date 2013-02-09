@@ -29,7 +29,7 @@ function git_push_workingtree() {
 }
 export -f git_push_workingtree
 
-function nxcp.exec () {
+function nxcp_exec () {
     cmd=$1
     echo "running '$cmd' against all call processors. Hit ENTER to continue."
     read enter
@@ -88,8 +88,13 @@ function git_cleanup() {
 export -f git_cleanup
 
 function cgtest() {
+    if [ -z "$1" ] ; then
+        echo "where should I start?"
+        return -1;
+    fi
+    base=$1
     (
-        cd $HOME/git/next
+        cd $HOME/git/$base
         for dir in $( ls ) ; do
             if [ -d "$dir/templates" ] ; then
                 (
@@ -272,18 +277,33 @@ alias path_clean='eval $( perl -wle '\''my %path = map { $_ => 1 } grep { !/tags
 alias port='PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin sudo port'
 
 function call_stack() {
-    $HOME/git/next-dev/tools/mxctl.pl $* \
+    $HOME/bin/mxctl.pl $* \
             storage_api\
+            cs_redis_conf\
+            cs_publisher\
             call_settings\
+            pp_ast_conf\
+            playfile_publisher\
             call_processor\
             cp_ast_conf\
             cr_opensips_conf\
-            pp_ast_conf\
-            playfile_publisher\
-            user_api\
-            mgmt_api\
-            mgmt_ui\
             log_mover\
+            listing_grinder\
+            queue_grinder\
+            log_processor
+}
+
+function nim_stack() {
+    $HOME/bin/mxctl.pl $* \
+            redis_conf\
+            redis_publisher\
+            product_api\
+            call_api\
+            queue_grinder\
+            call_api\
+            call_processor_httpd\
+            call_processor_asterisk_conf\
+            call_router\
             log_processor
 }
 
@@ -316,7 +336,7 @@ function fetch_cs() {
 
     ctn=${1/#+/%2b}
     url="http://$host/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
-    echo "curl $url"
+    echo "curl '$url'"
     curl $url
     echo
 }
@@ -360,4 +380,48 @@ function mk_lib() {
         INSTALLMAN3DIR=$target                       \
         LIB=$target
     make && make test && make install
+}
+
+function running_next() {
+    for pid in $( cat */run/*.pid ) ; do
+        process=$( ps wup $pid | grep "\\<$pid\\>" )
+        if [ -n "$process" ] ; then
+            echo "$pid still running"
+            echo $process
+        fi
+    done
+}
+
+function action_all_dcm_services() {
+    host=$1
+    action=$2
+    passwd=$3
+
+    if [ -z "$passwd" ]
+    then
+        read -s -p "Sudo password for $host: " passwd
+    fi
+
+    /usr/bin/ssh $host << EOS
+        echo $passwd | sudo -l;
+        for service in /etc/init.d/dcm-*;
+        do
+            sudo \$service $action;
+        done;
+        sudo -k # kill sudo cred;
+EOS
+}
+
+function dcm_stop() {
+    read -s -p "Sudo password: " passwd
+    for host in $* ; do
+        action_all_dcm_services $host stop "$passwd"
+    done
+}
+
+function dcm_start() {
+    read -s -p "Sudo password: " passwd
+    for host in $* ; do
+        action_all_dcm_services $host start "$passwd"
+    done
 }
