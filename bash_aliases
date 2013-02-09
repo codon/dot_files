@@ -1,4 +1,9 @@
 #!/bin/sh
+
+if [ -f ~/.dcm_bash_aliases ] ; then
+    source ~/.dcm_bash_aliases
+fi
+
 function setPerl5lib () {
     if [ -n "$1" ] ; then
         DIRPATH="$HOME/git/$1"
@@ -219,8 +224,8 @@ function rehost() {
     local host="$1"
     pushd ~ > /dev/null
     # .gitconfig
-    scp -r .git* .ssh .vim* .bash* .screen* $host:.
-    ssh $host "[[ -f .bash_history ]] && mv -i .bash_history .hist_bash"
+    scp -r .git* .ssh .vim* .*bash* .screen* $host:.
+    ssh $host "[[ -f .bash_history ]] && mv .bash_history .hist_bash"
     popd > /dev/null
 }
 
@@ -307,24 +312,31 @@ function nim_stack() {
             log_processor
 }
 
-alias bounce="$HOME/git/next-dev/tools/mxctl.pl bounce"
+alias bounce="$HOME/bin/mxctl.pl bounce"
 
 function fetch_cs() {
-    host='csapi.next.marchex.com'
-    carrier=skype
+    local host='csapi.next.phl.marchex.com'
+    local port='8977'
+    local carrier=bandwidth
     while [ -n "$2" ] ; do
         case $1 in
             --carrier=*)
-                carrier=${1/#--carrier=/}
+                local carrier=${1/#--carrier=/}
                 shift
                 ;;
             --carrier|-c)
                 shift
-                carrier=$1
+                local carrier=$1
                 shift
                 ;;
             --dev|-d)
-                host='localhost:8877'
+                local host='localhost'
+                shift
+                ;;
+            --next|-nx)
+                local host='nxcs1.sad.marchex.com'
+                local port='8877'
+                local next='true'
                 shift
                 ;;
             *)
@@ -334,11 +346,17 @@ function fetch_cs() {
         esac
     done
 
-    ctn=${1/#+/%2b}
-    url="http://$host/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
-    echo "curl '$url'"
-    curl $url
-    echo
+    if [ -z "$next" ] ; then
+        local url='settings'
+        local data="{\"jsonrpc\":\"2.0\",\"method\":\"get\",\"id\":\"432\",\"params\":{\"call_id\":\"manual_check\",\"caller_id\":\"cli\",\"carrier\":\"bandwidth\",\"phone\":\"$1\"}}"
+        echo "curl -d '$data' ${host}:${port}/${url}"
+        curl -d $data "${host}:${port}/${url}"
+    else
+        local ctn=${1/#+/%2b}
+        local url="http://$host:$port/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
+        echo "curl '$url'"
+        curl $url
+    fi
 }
 
 function mk_next_lib() {
@@ -380,6 +398,23 @@ function mk_lib() {
         INSTALLMAN3DIR=$target                       \
         LIB=$target
     make && make test && make install
+}
+
+function running() {
+    product=$1
+
+    if [ -z "$product" ]
+    then
+        for x in dcm nim next; do
+            echo "running $x:"
+            prefix="    "
+            running $x
+        done
+    else
+        ps auxw | grep $product | sed "s/.*\\/git\\/$product\\/\\([^\/]\\+\\)\\/.*/$prefix\\1/; /[^[:space:]]\\s\\+/d" | sort -u
+    fi
+
+    unset product prefix
 }
 
 function running_next() {

@@ -41,6 +41,11 @@ ORACLE_HOME=/site/oracle_client/client-11.2.0.1
 PATH=$PATH:$ORACLE_HOME/bin
 EDITOR=$(which vim)
 
+if [ -e $HOME/.rbenv ]; then
+    PATH=$HOME/.rbenv/bin:$PATH
+    eval "$(rbenv init -)"
+fi
+
 # fix some environment issues
 if [[ "$OSTYPE" =~ 'darwin' ]] ; then
     /bin/stty discard '^-'
