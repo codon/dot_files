@@ -40,7 +40,7 @@
 [rerere]
 	enabled = true
 [push]
-	default = current
+	default = upstream
 [pull]
 	default = rebase
 [user]
