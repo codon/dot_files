@@ -3,9 +3,9 @@
 function! GetPerlFold()
 	if getline(v:lnum) =~ '^package'
 		return "0"
-	elseif getline(v:lnum) =~ '^\s*sub\>'
+	elseif getline(v:lnum) =~ '^\s*\(sub\|BEGIN\|END\)\>'
 		return "a1"
-	elseif getline(v:lnum + 2) =~ '^\s*sub\>' && getline(v:lnum + 1) =~ '^\s*$'
+	elseif getline(v:lnum + 2) =~ '^\s*\(sub\|BEGIN\|END\)\>' && getline(v:lnum + 1) =~ '^\s*$'
 		return "s1"
 	elseif getline(v:lnum) =~ '^{\s*\(#.*\)*$'
 		return "a1"
