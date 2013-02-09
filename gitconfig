@@ -36,7 +36,7 @@
 	only = !git_only
 	plw = !git_push_workingtree
 	graph = log --all --graph --oneline --decorate
-	hist = log --all --graph --oneline --decorate
+	hist = log --graph --oneline --decorate
 [rerere]
     enabled = true
 [push]
