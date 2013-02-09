@@ -5,9 +5,9 @@ function! GetPerlFold()
 		return "a1"
 	elseif getline(v:lnum + 2) =~ '^\s*sub\>' && getline(v:lnum + 1) =~ '^\s*$'
 		return "s1"
-	elseif getline(v:lnum) =~ '^{\s*$'
+	elseif getline(v:lnum) =~ '^{\s*\(#.*\)*$'
 		return "a1"
-	elseif getline(v:lnum) =~ '^}\s*$'
+	elseif getline(v:lnum) =~ '^}\s*\(#.*\)*$'
 		return "s1"
 	else
 		return "="
