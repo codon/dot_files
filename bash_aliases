@@ -55,13 +55,29 @@ function git_only() {
 export -f git_only
 
 function git_cleanup() {
+    if [[ -z $(sed --version 2>/dev/null) ]] ; then
+        local sed_flags='-E'
+    else
+        local sed_flags=
+    fi
+
     if [[ $1 != "-f" ]]; then
         echo "### Dry-run mode, specify -f to actually perform deletes."
+        local force="no"
+    else
+        local force="yes"
+        shift
     fi
-    for branch in $(git branch -r --merged origin/master | sed 's/^\s\+//' | grep '\<origin/' | grep -v '\<origin/master\>'); do
+    if [[ -n "$1" ]]; then
+        local filter=$1
+    else
+        local filter=
+    fi
+    for branch in $(git branch -r --merged origin/master | sed $sed_flags "s/^[[:space:]]*//" | grep "\<origin/$filter" | grep -v '\<origin/master\>')
+    do
         if [[ -z $(git rev-list $branch --since '1 month') ]]; then
-            name=$(echo $branch | sed 's/^origin\///')
-            if [[ $1 = "-f" ]]; then
+            local name=$(echo $branch | sed 's/^origin\///')
+            if [[ $force == "yes" ]]; then
                 git push --delete origin "$name"
             else
                 echo git push --delete origin "$name"
@@ -190,7 +206,7 @@ function set_agent () {
 # I'm lazy and just want to type "sock"
 alias sock=set_agent
 
-rehost() {
+function rehost() {
     if [[  1 != $#  ]]; then
         echo "Usage: rehost host" >&2
         return 1
@@ -203,7 +219,7 @@ rehost() {
     popd > /dev/null
 }
 
-rspcap() {
+function rspcap() {
     for host in n{x,im}c{r,p}{1,2,3,4,5,6,7,8}.{sad,stg,qa,devint} vspbxuti1.sea ; do
         rsync -vaz $host:/tmp/*.pcap $HOME/tcpdumps/$host/ 2>/dev/null
     done
@@ -231,6 +247,10 @@ alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
 
+alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
+alias sqlplus='rlwrap sqlplus'
+alias perldoc='perldoc -t'
+
 alias rdp='rdesktop -g 1280x900 terminal1sea.windows.marchex.com'
 alias gf='git fetch'
 alias gp='git push'
@@ -242,6 +262,9 @@ alias gap='git add -p'
 alias gl='git log'
 alias gls='git log --stat'
 alias gg='git graph'
+alias gump='gmup'
+alias gmup='git merge @{u}'
+alias grup='git rebase @{u}'
 alias tcpd='sudo tcpdump -p -i any -s0 -v -w /tmp/$(hostname).$(date +%F-%T).pcap udp and not port 53 and not arp'
 alias rstcpd='for h in nxc{r{1,2},p{1,2,3,4,5,6,7,8}}.sad ; do rsync -varz $h:/tmp/*.pcap tcpdumps/$h/ ; done'
 alias path_clean='eval $( perl -wle '\''my %path = map { $_ => 1 } grep { !/tags/ && !m[lib/\w+/bin] && 6>scalar(()=m[/]g) } split /:/, $ENV{PATH}; $"=q{:}; print "export PATH=".join $", keys %path'\'' )'
@@ -315,4 +338,26 @@ function running_next() {
             echo $process
         fi
     done
+}
+
+function mk_lib() {
+    target=$1
+    if [ -z "$target" ] ; then
+        echo "please specify the target installation path"
+        return
+    fi
+    if [ ! -d $target ] ; then
+        echo "$target does not exist. create? [Y/n] "
+        read create_target
+        # if [[ [ "Y" eq $create_target ] || [ "y" eq $create_target ] || [ -z "$create_target" ] ]] ; then
+        if [[ "Y" -eq $create_target || "y" -eq $create_target || -z "$create_target" ]] ; then
+            mkdir $target
+        fi
+    fi
+    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL    \
+        PREFIX=$target                               \
+        INSTALLMAN1DIR=$target                       \
+        INSTALLMAN3DIR=$target                       \
+        LIB=$target
+    make && make test && make install
 }
