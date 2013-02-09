@@ -6,8 +6,8 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-PATH=/opt/local/pgsql/bin:$HOME/bin:$HOME/svn/depot_tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-# ~mds set path to manually installed java
+PATH=$PATH:/opt/local/pgsql/bin:/usr/java/jre1.5.0_06/bin:$HOME/svn/depot_tools
+
 TUNNEL_HOST=iheffner.com
 export TUNNEL_HOST
 
