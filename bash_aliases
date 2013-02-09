@@ -50,11 +50,15 @@ function git_cleanup() {
 
     if [[ $1 != "-f" ]]; then
         echo "### Dry-run mode, specify -f to actually perform deletes."
+        local force="no"
+    else
+        local force="yes"
+        shift
     fi
     for branch in $(git branch -r --merged origin/master | sed $sed_flags "s/^[[:space:]]*//" | grep '\<origin/' | grep -v '\<origin/master\>'); do
         if [[ -z $(git rev-list $branch --since '1 month') ]]; then
-            name=$(echo $branch | sed 's/^origin\///')
-            if [[ $1 = "-f" ]]; then
+            local name=$(echo $branch | sed 's/^origin\///')
+            if [[ $force == "yes" ]]; then
                 git push --delete origin "$name"
             else
                 echo git push --delete origin "$name"
