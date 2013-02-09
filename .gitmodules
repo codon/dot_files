@@ -1,15 +1,15 @@
 [submodule "vim/bundle/gundo"]
 	path = vim/bundle/gundo
-	url = https://github.com/sjl/gundo.vim.git
+	url = git://github.com/sjl/gundo.vim.git
 [submodule "vim/bundle/threesome"]
 	path = vim/bundle/threesome
-	url = https://github.com/sjl/threesome.vim.git
+	url = git://github.com/sjl/threesome.vim.git
 [submodule "vim/bundle/fugitive"]
 	path = vim/bundle/fugitive
-	url = https://github.com/tpope/vim-fugitive.git
+	url = git://github.com/tpope/vim-fugitive.git
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+	url = git://github.com/scrooloose/nerdtree.git
 [submodule "vim/bundle/vim-git"]
 	path = vim/bundle/vim-git
 	url = git://github.com/tpope/vim-git.git
