@@ -36,3 +36,5 @@ function! GetPerlSubName(line)
     endif
 endfunction
 
+autocmd BufWritePost *.pl silent !chmod +x %
+autocmd BufWritePost *.t  silent !chmod +x %
