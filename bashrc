@@ -85,7 +85,10 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion 2>/dev/null
 fi
 
-# get /opt/local/bin before system
+# get /opt/local/{s,}bin before system
+if [ -d /opt/local/sbin ]; then
+	PATH=/opt/local/sbin:$PATH
+fi
 if [ -d /opt/local/bin ]; then
 	PATH=/opt/local/bin:$PATH
 fi
