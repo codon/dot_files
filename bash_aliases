@@ -55,7 +55,13 @@ function git_cleanup() {
         local force="yes"
         shift
     fi
-    for branch in $(git branch -r --merged origin/master | sed $sed_flags "s/^[[:space:]]*//" | grep '\<origin/' | grep -v '\<origin/master\>'); do
+    if [[ -n "$1" ]]; then
+        local filter=$1
+    else
+        local filter=
+    fi
+    for branch in $(git branch -r --merged origin/master | sed $sed_flags "s/^[[:space:]]*//" | grep "\<origin/$filter" | grep -v '\<origin/master\>')
+    do
         if [[ -z $(git rev-list $branch --since '1 month') ]]; then
             local name=$(echo $branch | sed 's/^origin\///')
             if [[ $force == "yes" ]]; then
