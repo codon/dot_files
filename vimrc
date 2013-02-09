@@ -18,6 +18,8 @@ set list
 set hidden
 set modeline
 set modelines=5
+let mapleader='\'
+let maplocalleader=','
 " Diff options:
 " - use filler chars for deleted lines
 " - always use vertical splits (unless stated explicitly otherwise)
