@@ -41,10 +41,10 @@ bind - command -c selectHighs
 # source /Domain/windows.marchex.com/Users/iheffner/.bash_profile
 
 # default screen session
-screen -t call_router    1
-screen -t call_settings  2
-screen -t publisher      3
-screen -t logproc        4
-screen -t call_proc      0
+screen -T xterm-256color -t call_router    1
+screen -T xterm-256color -t call_settings  2
+screen -T xterm-256color -t publisher      3
+screen -T xterm-256color -t logproc        4
+screen -T xterm-256color -t call_proc      0
 
 # vim: ft=screen

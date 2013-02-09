@@ -38,19 +38,19 @@ bind -c selectHighs 9 select 19
 bind - command -c selectHighs
 
 # default screen session
-screen -t qa1           1
-stuff 'screen -US tier-qa1 -c $HOME/.screen/screenrc-qa1'^J
-screen -t qa2           2
-stuff 'screen -US tier-qa2 -c $HOME/.screen/screenrc-qa2'^J
-screen -t qa3           3
-stuff 'screen -US tier-qa3 -c $HOME/.screen/screenrc-qa3'^J
-screen -t blackbox      4
+screen -T xterm-256color -t qa1           1
+stuff 'screen -T xterm-256color -US tier-qa1 -c $HOME/.screen/screenrc-qa1'^J
+screen -T xterm-256color -t qa2           2
+stuff 'screen -T xterm-256color -US tier-qa2 -c $HOME/.screen/screenrc-qa2'^J
+screen -T xterm-256color -t qa3           3
+stuff 'screen -T xterm-256color -US tier-qa3 -c $HOME/.screen/screenrc-qa3'^J
+screen -T xterm-256color -t blackbox      4
 stuff 'sock'^J
 stuff 'ssh vspbxuti1.sea'^J
-screen -t prod          5
-stuff 'screen -US tier-prod -c $HOME/.screen/screenrc-prod'^J
-screen -t build         6
-screen -t hardtop       0
-stuff 'screen -US tier-workstation -c $HOME/.screen/screenrc-workstation'^J
+screen -T xterm-256color -t prod          5
+stuff 'screen -T xterm-256color -US tier-prod -c $HOME/.screen/screenrc-prod'^J
+screen -T xterm-256color -t build         6
+screen -T xterm-256color -t hardtop       0
+stuff 'screen -T xterm-256color -US tier-workstation -c $HOME/.screen/screenrc-workstation'^J
 
 # vim: ft=screen

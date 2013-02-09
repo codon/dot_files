@@ -38,10 +38,10 @@ bind - command -c selectHighs
 # source /Domain/windows.marchex.com/Users/iheffner/.bash_profile
 
 # default screen session
-screen -t sudo     0
-screen -t etc      1
-screen -t postgres 3
-screen -t asterisk 2
+screen -T xterm-256color -t sudo     0
+screen -T xterm-256color -t etc      1
+screen -T xterm-256color -t postgres 3
+screen -T xterm-256color -t asterisk 2
 stuff 'sudo /usr/sbin/asterisk -rc'^J
 
 # vim: ft=screen

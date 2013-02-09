@@ -38,39 +38,39 @@ bind -c selectHighs 9 select 19
 bind - command -c selectHighs
 
 # default screen session
-screen -t qa1               1
+screen -T xterm-256color -t qa1               1
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
 stuff 'export TIER="1.qa"'^J
-stuff 'screen -US qa1 -c $HOME/.screen/screenrc-qa1'^J
+stuff 'screen -T xterm-256color -US qa1 -c $HOME/.screen/screenrc-qa1'^J
 
-screen -t qa2               2
+screen -T xterm-256color -t qa2               2
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
-stuff 'screen -US qa2 -c $HOME/.screen/screenrc-qa2'^J
+stuff 'screen -T xterm-256color -US qa2 -c $HOME/.screen/screenrc-qa2'^J
 
-screen -t qa3               3
+screen -T xterm-256color -t qa3               3
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
-stuff 'screen -US qa3 -c $HOME/.screen/screenrc-qa2'^J
+stuff 'screen -T xterm-256color -US qa3 -c $HOME/.screen/screenrc-qa2'^J
 
-screen -t blackbox          4
+screen -T xterm-256color -t blackbox          4
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
 stuff 'ssh vspbxuti1.sea'^J
 
-screen -t prod              5
+screen -T xterm-256color -t prod              5
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
-stuff 'screen -US prod -c $HOME/.screen/screenrc-tier'^J
+stuff 'screen -T xterm-256color -US prod -c $HOME/.screen/screenrc-prod'^J
 
-screen -t build             6
+screen -T xterm-256color -t build             6
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
 
-screen -t hardtop           0
+screen -T xterm-256color -t hardtop           0
 stuff 'source ~/.bash_profile'^J
 stuff 'sock'^J
-stuff 'screen -US qa1 -c $HOME/.screen/screenrc-tier'^J
+stuff 'screen -T xterm-256color -US qa1 -c $HOME/.screen/screenrc-tier'^J
 
 # vim: ft=screen

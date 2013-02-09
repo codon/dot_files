@@ -39,35 +39,35 @@ bind - command -c selectHighs
 
 # default screen session
 
-screen -t database    7
+screen -T xterm-256color -t database    7
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t sql    6
+screen -T xterm-256color -t sql    6
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t asterisk    5
+screen -T xterm-256color -t asterisk    5
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t shared 4
+screen -T xterm-256color -t shared 4
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t logs   3
+screen -T xterm-256color -t logs   3
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t git    2
+screen -T xterm-256color -t git    2
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t ctl    1
+screen -T xterm-256color -t ctl    1
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
-screen -t code   0
+screen -T xterm-256color -t code   0
 scrollback 20000
 stuff 'source ~/.bash_profile'^J
 
