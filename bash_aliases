@@ -231,6 +231,7 @@ alias share='open /System/Library/CoreServices/Screen\ Sharing.app'
 alias sqlplus='rlwrap sqlplus'
 alias perldoc='perldoc -t'
 
+alias tunnel='ssh -D40022 -t -A nosecone.marchex.com ssh -A hardtop'
 alias rdp='rdesktop -g 1280x900 terminal1sea.windows.marchex.com'
 alias gf='git fetch'
 alias gp='git push'
