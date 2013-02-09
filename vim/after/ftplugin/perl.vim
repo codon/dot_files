@@ -1,7 +1,9 @@
 "
 " Perl Subroutine Folding expression
 function! GetPerlFold()
-	if getline(v:lnum) =~ '^\s*sub\>'
+	if getline(v:lnum) =~ '^package'
+		return "0"
+	elseif getline(v:lnum) =~ '^\s*sub\>'
 		return "a1"
 	elseif getline(v:lnum + 2) =~ '^\s*sub\>' && getline(v:lnum + 1) =~ '^\s*$'
 		return "s1"
