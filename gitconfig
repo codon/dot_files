@@ -34,8 +34,9 @@
 	dif = diff
 	stat = status
 	only = !git_only
-    plw = !git_push_workingtree
-    graph = log --all --graph --oneline --decorate
+	plw = !git_push_workingtree
+	graph = log --all --graph --oneline --decorate
+	hist = log --all --graph --oneline --decorate
 [rerere]
     enabled = true
 [push]
@@ -45,13 +46,15 @@
 [user]
 	name = Ivan Heffner
 	email = iheffner@marchex.com
-#[merge]
-#	tool = vimdiff
-#[mergetool]
-#	tool = vimdiff
-#	prompt = no
 [merge]
-    tool = threesome
+	tool = vimdiff
+#	tool = threesome
+[mergetool]
+	tool = vimdiff
+	prompt = no
 [mergetool "threesome"]
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
     trustExitCode = true
+	prompt = no
+[status]
+	relativePaths = false
