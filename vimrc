@@ -1,4 +1,5 @@
 set exrc
+set nocompatible
 set autoindent
 set ignorecase
 set shiftwidth=4
@@ -20,6 +21,7 @@ set modeline
 set modelines=5
 let mapleader='\'
 let maplocalleader=','
+filetype plugin indent on
 " Diff options:
 " - use filler chars for deleted lines
 " - always use vertical splits (unless stated explicitly otherwise)
@@ -31,7 +33,7 @@ call pathogen#infect()
 " turn on syntax highlighting if using a color terminal
 if &t_Co > 1
     syntax on
-    colorscheme prairie_wind
+    colorscheme codon
 endif
 "
 " remap <F1> (stupid help) to <Esc> (Ahhh) in all modes
@@ -70,22 +72,10 @@ endfunction
 map ## :call Comment()<cr>
 map !# :call UnComment()<cr>
 
-map <C-T>n :tabnext<CR>
-map <C-T>p :tabprev<CR>
-
 function! AlignAssignments() range
     "Patterns needed to locate assignment operators...
     let ASSIGN_OP   = '[-+*/%|&:]\?=\@<!=[=~]\@!'
     let ASSIGN_LINE = '^\(.\{-}\)\s*\(' . ASSIGN_OP . '\)'
-
-" I'm making this a range operator. No magicks.
-"    "Locate block of code to be considered (same indentation, no blanks)
-"    let indent_pat = '^' . matchstr(getline('.'), '^\s*') . '\S'
-"    let firstline  = search('^\%('. indent_pat . '\)\@!','bnW') + 1
-"    let lastline   = search('^\%('. indent_pat . '\)\@!', 'nW') - 1
-"    if lastline < 0
-"        let lastline = line('$')
-"    endif
 
     "Find the column at which the operators should be aligned...
     let max_align_col = 0
@@ -221,7 +211,7 @@ nnoremap <Leader>td :call Today()<cr>
 
 " Set up color swap function
 function! Swapcolor()
-    if exists("b:syntax_on")
+    if exists("syntax_on")
         syntax off
     else
         if     &background == 'light'
@@ -230,7 +220,7 @@ function! Swapcolor()
             set background=light
         endif
         syntax on
-        colorscheme prairie_wind
+        colorscheme codon
     endif
 endfunction
 "

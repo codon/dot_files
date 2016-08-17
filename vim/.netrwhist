@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/site/asterisk-1.6.2'
+let g:netrw_dirhist_2='/Users/iheffner/perl'
+let g:netrw_dirhist_3='/Users/iheffner/git/proxycast-diy/conf'
+let g:netrw_dirhist_4='/Users/iheffner/git/proxycast-diy/.openshift/action_hooks'
+let g:netrw_dirhist_5='/Users/iheffner/git/test-tools/conf/pulley'
+let g:netrw_dirhist_6='/Users/iheffner/git/proxycast-diy'
+let g:netrw_dirhist_7='/Users/iheffner/git/CallablePOC/.idea'
+let g:netrw_dirhist_8='/Users/iheffner/git/ProxyCast'

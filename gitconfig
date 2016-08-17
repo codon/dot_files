@@ -43,9 +43,11 @@
 	default = upstream
 [pull]
 	default = rebase
+[remote "origin"]
+	fetch = +refs/tags/*:refs/tags/*
 [user]
 	name = Ivan Heffner
-	email = iheffner@marchex.com
+	email = iheffner@gmail.com
 [merge]
 	tool = vimdiff
 #	tool = threesome
@@ -58,3 +60,11 @@
 	prompt = no
 [status]
 	relativePaths = false
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

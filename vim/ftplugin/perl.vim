@@ -36,5 +36,10 @@ function! GetPerlSubName(line)
     endif
 endfunction
 
-autocmd BufWritePost *.pl silent !chmod +x %
-autocmd BufWritePost *.t  silent !chmod +x %
+augroup perl
+autocmd!
+autocmd perl BufWritePost *.pl silent !chmod +x %
+autocmd perl BufWritePost *.t  silent !chmod +x %
+autocmd perl BufWritePost *.pl :make
+autocmd perl BufWritePost *.pm :make
+autocmd perl BufWritePost *.t  :make

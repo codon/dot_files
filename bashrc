@@ -107,3 +107,6 @@ unset USERNAME
 #/usr/bin/screen -xA
 
 [[ -r "$HOME/.smartcd_config" ]] && source ~/.smartcd_config
+
+PERL_MB_OPT="--install_base \"/Users/iheffner/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/iheffner/perl5"; export PERL_MM_OPT;

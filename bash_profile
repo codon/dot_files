@@ -73,3 +73,21 @@ if [ -f /opt/local/etc/bash_completion ]; then
 fi
 
 [[ -r "$HOME/.smartcd_config" ]] && source ~/.smartcd_config
+
+##
+# Your previous /Users/iheffner/.bash_profile file was backed up as /Users/iheffner/.bash_profile.macports-saved_2013-06-26_at_12:25:12
+##
+
+# MacPorts Installer addition on 2013-06-26_at_12:25:12: adding an appropriate PATH variable for use with MacPorts.
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+
+##
+# Your previous /Users/iheffner/.bash_profile file was backed up as /Users/iheffner/.bash_profile.macports-saved_2015-10-09_at_15:13:59
+##
+
+# MacPorts Installer addition on 2015-10-09_at_15:13:59: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
