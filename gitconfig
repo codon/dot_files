@@ -21,7 +21,7 @@
 	autosetupmerge = true
 [core]
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = ~iheffner/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
 	st = status
 	ci = commit
@@ -45,7 +45,7 @@
 	default = rebase
 [user]
 	name = Ivan Heffner
-	email = iheffner@marchex.com
+	email = iheffner@gmail.com
 [merge]
 	tool = vimdiff
 #	tool = threesome
