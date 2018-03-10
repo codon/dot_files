@@ -1,6 +1,6 @@
 servers = (
   { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
-  {
+  { 
     address = "irc.freenode.net";
     chatnet = "FreeNode";
     port = "6667";
@@ -305,4 +305,7 @@ hilights = (
   { text = "http://"; nick = "yes"; word = "yes"; }
 );
 logs = { };
-ignores = ( { level = "JOINS PARTS QUITS"; channels = ( "#git" ); } );
+ignores = (
+  { level = "JOINS PARTS QUITS"; channels = ( "#git" ); },
+  { level = "JOINS PARTS QUITS"; channels = ( "#openshift" ); }
+);

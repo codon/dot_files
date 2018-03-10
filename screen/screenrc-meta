@@ -37,9 +37,16 @@ bind -c selectHighs 9 select 19
 
 bind - command -c selectHighs
 
-# default screen session
-screen -t server0           0
-screen -t server1           1
-screen -t server2           2
-screen -t server3           3
+# start my screens
+screen -T xterm-256color -t codon         1
+stuff 'screen -T xterm-256color -US codon -c $HOME/.screen/screenrc-codon'^J
+
+screen -T xterm-256color -t maldova       2
+stuff 'screen -T xterm-256color -US maldova -c $HOME/.screen/screenrc-maldova'^J
+
+screen -T xterm-256color -t extra         3
+stuff 'screen -T xterm-256color -US extra'^J
+
+screen -T xterm-256color -t onc           0
+stuff 'screen -T xterm-256color -US onc -c $HOME/.screen/screenrc-onc'^J
 

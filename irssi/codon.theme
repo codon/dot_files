@@ -181,7 +181,7 @@ abstracts = {
   action_core = "%b* $*%n ";
 
   # generic one that's used by most actions
-  action = "{action_core $*}: ";
+  action = "{action_core $*}:  ";
 
   # own action, both private/public
   ownaction = "{action_core $*}: ";
@@ -225,7 +225,7 @@ abstracts = {
   netjoin = "%C$*%n";
 
   # /names list
-  names_prefix = "            %w-%c-%C-%n| ";
+  names_prefix = "            %w-%c-%C-%n|";
   names_nick = "[%_$0%_$1-] ";
   names_nick_op = "{names_nick $*}";
   names_nick_halfop = "{names_nick $*}";
@@ -358,8 +358,8 @@ formats = {
   };
   "fe-common/core" = {
     pubmsg = "{pubmsgnick $2 {pubnick \00313$[-13]0 %n|}}$1";
-    pubmsg_channel = "{pubmsgnick $3 {pubnick \00313$[-13]0} %n| %m({msgchannel $1})%n}$2";
-    line_start = "            %w-%c-%C-%n| %n";
+    pubmsg_channel = "{pubmsgnick $3 {pubnick \00313$[-13]0} %n|%m({msgchannel $1})%n}$2";
+    line_start = "            %w-%c-%C-%n|%n";
     line_start_irssi = "            {line_start}%n| %rIrssi: %n";
     servertag = "[%b$0%n]";
     refnum_too_low = "{errormessage Window number must be greater than 1}";
@@ -397,18 +397,18 @@ formats = {
     your_nick_changed = "{acknowledgedmessage You're now known as {nick $1}}";
     nick_changed = "{usermessage %r*** %n{channick $0} is now known as {channick_hilight $1}}";
     not_in_channels = "{errormessage You are not on any channels}";
-    names_prefix = "            %w-%c-%C-%n| ";
+    names_prefix = "            %w-%c-%C-%n|";
     chansetup_not_found = "{errormessage Channel {channel $0} not found}";
     chansetup_added = "{acknowledgedmessage Channel {channel $0} saved}";
     chansetup_removed = "{acknowledgedmessage Channel {channel $0} removed}";
     own_msg = "{ownmsgnick $2 {ownnick $[-13]0}%n |}$1";
-    own_msg_channel = "{ownmsgnick $3 {ownnick $[-13]0}%n | %m({msgchannel $1})}$2";
+    own_msg_channel = "{ownmsgnick $3 {ownnick $[-13]0}%n |%m({msgchannel $1})}$2";
     own_msg_private = "{ownprivmsg msg $[-13]0}$1";
     own_msg_private_query = "{ownprivmsgnick {ownprivnick $[-14]2}%n |}$1";
-    pubmsg_me = "{pubmsgmenick $2{menick $[-13]0} }| $1";
-    pubmsg_me_channel = "{pubmsgmenick $3 {menick $[-13]0}%R | %m({msgchannel $1})%R}$2";
-    pubmsg_hilight = "{pubmsghinick $0 $3 $[-13]1}| $2";
-    pubmsg_hilight_channel = "{pubmsghinick $0 $4 $[-13]1{msgchannel $2}}| $3";
+    pubmsg_me = "{pubmsgmenick $2{menick $[-13]0} }|$1";
+    pubmsg_me_channel = "{pubmsgmenick $3 {menick $[-13]0}%R |%m({msgchannel $1})%R}$2";
+    pubmsg_hilight = "{pubmsghinick $0 $3 $[-13]1}|$2";
+    pubmsg_hilight_channel = "{pubmsghinick $0 $4 $[-13]1{msgchannel $2}}|$3";
     msg_private = "{privmsg $[-13]0}$2";
     msg_private_query = "{privmsgnick $[-14]0%n |}$2";
     no_msgs_got = "{errormessage You have not received a message from anyone yet}";
