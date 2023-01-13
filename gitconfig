@@ -36,11 +36,13 @@
 	only = !git_only
 	plw = !git_push_workingtree
 	graph = log --all --graph --oneline --decorate
-	hist = log --graph --oneline --decorate
+	hist = log --graph --oneline --decorate -20
+    cleanup = "!source ~/.zsh_functions ; git_cleanup"
 [rerere]
 	enabled = true
 [push]
 	default = upstream
+	autoSetupRemote = true
 [pull]
 	default = rebase
 [user]

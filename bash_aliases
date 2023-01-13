@@ -21,59 +21,6 @@ function setPerl5lib () {
     fi
     export PERL5LIB
 }
-
-function git_push_workingtree() {
-    remote=$1
-    head_ref=$(git symbolic-ref HEAD)
-    remote_ref=$( git symbolic-ref HEAD | sed 's|heads|remotes/macbook|' )
-    git push $remote +$head_ref:$remote_ref
-}
-export -f git_push_workingtree
-
-function git_only() {
-    opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
-    rev=$(git rev-parse --revs-only "$@" 2>/dev/null)
-    if [[ -z $rev ]]; then
-        branch=$(git name-rev --name-only HEAD)
-    else
-        branch=$rev
-    fi
-    git log $(git rev-parse --not --remotes --branches | grep -v $(git rev-parse $branch)) $branch $opts
-}
-export -f git_only
-
-function git_cleanup() {
-    if [[ -z $(sed --version 2>/dev/null) ]] ; then
-        local sed_flags='-E'
-    else
-        local sed_flags=
-    fi
-
-    if [[ $1 != "-f" ]]; then
-        echo "### Dry-run mode, specify -f to actually perform deletes."
-        local force="no"
-    else
-        local force="yes"
-        shift
-    fi
-    if [[ -n "$1" ]]; then
-        local filter=$1
-    else
-        local filter=
-    fi
-    for branch in $(git branch -r --merged origin/master | sed $sed_flags "s/^[[:space:]]*//" | grep "\<origin/$filter" | grep -v '\<origin/master\>')
-    do
-        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
-            local name=$(echo $branch | sed 's/^origin\///')
-            if [[ $force == "yes" ]]; then
-                git push --delete origin "$name"
-            else
-                echo git push --delete origin "$name"
-            fi
-        fi
-    done
-}
-export -f git_cleanup
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
 # varies a little between Linux and Mac OS X, but since I don't want to remember two different

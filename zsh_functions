@@ -1,0 +1,61 @@
+function git_push_workingtree() {
+    remote=$1
+    head_ref=$(git symbolic-ref HEAD)
+    remote_ref=$( git symbolic-ref HEAD | sed 's|heads|remotes/macbook|' )
+    git push $remote +$head_ref:$remote_ref
+}
+# export -f git_push_workingtree
+
+function git_only() {
+    opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
+    rev=$(git rev-parse --revs-only "$@" 2>/dev/null)
+    if [[ -z $rev ]]; then
+        branch=$(git name-rev --name-only HEAD)
+    else
+        branch=$rev
+    fi
+    git log $(git rev-parse --not --remotes --branches | grep -v $(git rev-parse $branch)) $branch $opts
+}
+# export -f git_only
+
+function git_cleanup() {
+    if [[ -z $(sed --version 2>/dev/null) ]] ; then
+        local sed_flags='-E'
+    else
+        local sed_flags=
+    fi
+
+    local force="no"
+    while getopts 'fb:' opt
+    do
+      case $opt in
+        f)  local force="yes" ;;
+        b)  local branch=$( git rev-parse --verify --quiet --symbolic $OPTARG )
+            if [[ -z "$branch" ]]; then
+                echo "'${OPTARG}' is not a valid ref" >&2 ; return 1
+            fi
+            ;;
+      esac
+    done
+    shift $(($OPTIND-1))
+
+    local filter=$1
+    if [[ $force == "no" ]]; then
+        echo "### Dry-run mode, specify -f to actually perform deletes." >&2
+    fi
+
+    for branch in $(git branch -r --merged ${branch:-'origin/master'} | sed $sed_flags "s/^[[:space:]]*//" | grep "$filter" | grep -v '\<'${branch:-'origin/master'}'\>')
+    do
+        if [[ "$branch" == "origin/master" ]]; then continue ; fi
+        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
+            local name=$(echo $branch | sed 's/^origin\///')
+            if [[ $force == "yes" ]]; then
+                git push --delete origin "$name"
+            else
+                echo git push --delete origin "$name"
+            fi
+        fi
+    done
+}
+# export -f git_cleanup
+
