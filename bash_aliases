@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ -f ~/.dcm_bash_aliases ] ; then
-    source ~/.dcm_bash_aliases
-fi
-
 function setPerl5lib () {
     if [ -n "$1" ] ; then
         DIRPATH="$HOME/git/$1"
@@ -33,19 +29,6 @@ function git_push_workingtree() {
     git push $remote +$head_ref:$remote_ref
 }
 export -f git_push_workingtree
-
-function nxcp_exec () {
-    cmd=$1
-    echo "running '$cmd' against all call processors. Hit ENTER to continue."
-    read enter
-    sock
-    for x in 1 2 3 4 5 6 7 8 ; do
-        nxcp="nxcp${x}.sad"
-        echo "$nxcp"
-        ssh -t $nxcp "sudo /site/asterisk/asterisk-1.6.2.6/sbin/asterisk -C /site/nx-call-proc-ast-conf/conf/asterisk.conf -rx '$cmd'"
-        echo "====="
-    done
-}
 
 function git_only() {
     opts=$(git rev-parse --no-revs "$@" 2>/dev/null)
@@ -91,108 +74,6 @@ function git_cleanup() {
     done
 }
 export -f git_cleanup
-
-function cgtest() {
-    if [ -z "$1" ] ; then
-        echo "where should I start?"
-        return -1;
-    fi
-    base=$1
-    (
-        cd $HOME/git/$base
-        for dir in $( ls ) ; do
-            if [ -d "$dir/templates" ] ; then
-                (
-                    cd $dir
-                    echo -n "$dir: "
-                    confgen 1>/dev/null 2>&1
-                    if [ 0 -eq $? ] ; then
-                        confgen --dev 1>/dev/null 2>&1
-                        if [ 0 -eq $? ] ; then
-                            echo 'ok'
-                        else
-                            echo 'has errors'
-                            break
-                        fi
-                    else
-                        echo 'has errors'
-                        break
-                    fi
-                )
-            else
-                echo "$dir: skipped"
-            fi
-        done
-    )
-}
-
-function _service () {
-    service=$1
-    action=$2
-    case $action in
-        'stop')
-            echo -n "stopping $service ... "
-            $service stop 2>/dev/null 1>&2
-            if [ 0 == $? ] ; then
-                echo "[ok]"
-            else
-                echo "[ERROR]"
-            fi
-            ;;
-        'start')
-            echo -n "starting $service ... "
-            $service start 2>/dev/null 1>&2
-            if [ 0 == $? ] ; then
-                echo "[ok]"
-            else
-                echo "[ERROR]"
-            fi
-            ;;
-        *)
-            echo "you don't know what you're talking about, do you?"
-            ;;
-    esac
-}
-
-function _services () {
-    action=$1
-    shift
-    for service in $* ; do
-        (
-            cd $service
-            echo -n "$service: "
-            _service bin/httpd $action
-        )
-    done
-}
-
-function _get_git_base () {
-    GIT_BASE=$HOME/git/next
-    if [ ! -d $GIT_BASE ] ; then
-        echo "where is your working 'next' directory?"
-        read GIT_BASE
-    fi
-    echo $GIT_BASE
-}
-
-function mx_basic_start () {
-    GIT_BASE=$(_get_git_base)
-    (
-        cd $GIT_BASE
-        _services start utility_api user_api mgmt_api mgmt_ui
-    )
-}
-
-function mx_basic_stop () {
-    GIT_BASE=$(_get_git_base)
-    (
-        cd $GIT_BASE
-        _services stop mgmt_ui mgmt_api user_api utility_api
-    )
-}
-
-alias mx_basic_restart='mx_basic_stop && mx_basic_start'
-
 # We want a quick alias to set our SSH_AUTH_SOCK in case we are re-connecting to a screen session
 # or maybe we didn't have an agent running when we started the terminal session. The way we do this
 # varies a little between Linux and Mac OS X, but since I don't want to remember two different
@@ -227,12 +108,6 @@ function rehost() {
     scp -r .git* .ssh .vim* .*bash* .screen* $host:.
     ssh $host "[[ -f .bash_history ]] && mv .bash_history .hist_bash"
     popd > /dev/null
-}
-
-function rspcap() {
-    for host in n{x,im}c{r,p}{1,2,3,4,5,6,7,8}.{sad,stg,qa,devint} vspbxuti1.sea ; do
-        rsync -vaz $host:/tmp/*.pcap $HOME/tcpdumps/$host/ 2>/dev/null
-    done
 }
 
 function mk_user_lib() {
@@ -281,103 +156,6 @@ alias path_clean='eval $( perl -wle '\''my %path = map { $_ => 1 } grep { !/tags
 
 alias port='PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin sudo port'
 
-function call_stack() {
-    $HOME/bin/mxctl.pl $* \
-            storage_api\
-            cs_redis_conf\
-            cs_publisher\
-            call_settings\
-            pp_ast_conf\
-            playfile_publisher\
-            call_processor\
-            cp_ast_conf\
-            cr_opensips_conf\
-            log_mover\
-            listing_grinder\
-            queue_grinder\
-            log_processor
-}
-
-function nim_stack() {
-    $HOME/bin/mxctl.pl $* \
-            redis_conf\
-            redis_publisher\
-            product_api\
-            call_api\
-            queue_grinder\
-            call_api\
-            call_processor_httpd\
-            call_processor_asterisk_conf\
-            call_router\
-            log_processor
-}
-
-alias bounce="$HOME/bin/mxctl.pl bounce"
-
-function fetch_cs() {
-    local host='csapi.next.phl.marchex.com'
-    local port='8977'
-    local carrier=bandwidth
-    while [ -n "$2" ] ; do
-        case $1 in
-            --carrier=*)
-                local carrier=${1/#--carrier=/}
-                shift
-                ;;
-            --carrier|-c)
-                shift
-                local carrier=$1
-                shift
-                ;;
-            --dev|-d)
-                local host='localhost'
-                shift
-                ;;
-            --next|-nx)
-                local host='nxcs1.sad.marchex.com'
-                local port='8877'
-                local next='true'
-                shift
-                ;;
-            *)
-                echo "don't recognize option '$1'; did you mean --$1?"
-                return
-                ;;
-        esac
-    done
-
-    if [ -z "$next" ] ; then
-        local url='settings'
-        local data="{\"jsonrpc\":\"2.0\",\"method\":\"get\",\"id\":\"432\",\"params\":{\"call_id\":\"manual_check\",\"caller_id\":\"cli\",\"carrier\":\"bandwidth\",\"phone\":\"$1\"}}"
-        echo "curl -d '$data' ${host}:${port}/${url}"
-        curl -d $data "${host}:${port}/${url}"
-    else
-        local ctn=${1/#+/%2b}
-        local url="http://$host:$port/api/v1/settings/get?call_id=manual_check&caller_id=cli&carrier=${carrier}&tracking_phone=$ctn"
-        echo "curl '$url'"
-        curl $url
-    fi
-}
-
-function mk_next_lib() {
-    /site/perl/perl-5.10.1-1/bin/perl Makefile.PL \
-        PREFIX=/site/perllibs-next                \
-        INSTALLMAN1DIR=/site/perllibs-next/man1   \
-        INSTALLMAN3DIR=/site/perllibs-next/man3   \
-        LIB=/site/perllibs-next/lib
-    make && make test && make install
-}
-
-function running_next() {
-    for pid in $( cat */run/*.pid ) ; do
-        process=$( ps wup $pid | grep "\\<$pid\\>" )
-        if [ -n "$process" ] ; then
-            echo "$pid still running"
-            echo $process
-        fi
-    done
-}
-
 function mk_lib() {
     target=$1
     if [ -z "$target" ] ; then
@@ -400,63 +178,3 @@ function mk_lib() {
     make && make test && make install
 }
 
-function running() {
-    product=$1
-
-    if [ -z "$product" ]
-    then
-        for x in dcm nim next; do
-            echo "running $x:"
-            prefix="    "
-            running $x
-        done
-    else
-        ps auxw | grep $product | sed "s/.*\\/git\\/$product\\/\\([^\/]\\+\\)\\/.*/$prefix\\1/; /[^[:space:]]\\s\\+/d" | sort -u
-    fi
-
-    unset product prefix
-}
-
-function running_next() {
-    for pid in $( cat */run/*.pid ) ; do
-        process=$( ps wup $pid | grep "\\<$pid\\>" )
-        if [ -n "$process" ] ; then
-            echo "$pid still running"
-            echo $process
-        fi
-    done
-}
-
-function action_all_dcm_services() {
-    host=$1
-    action=$2
-    passwd=$3
-
-    if [ -z "$passwd" ]
-    then
-        read -s -p "Sudo password for $host: " passwd
-    fi
-
-    /usr/bin/ssh $host << EOS
-        echo $passwd | sudo -l;
-        for service in /etc/init.d/dcm-*;
-        do
-            sudo \$service $action;
-        done;
-        sudo -k # kill sudo cred;
-EOS
-}
-
-function dcm_stop() {
-    read -s -p "Sudo password: " passwd
-    for host in $* ; do
-        action_all_dcm_services $host stop "$passwd"
-    done
-}
-
-function dcm_start() {
-    read -s -p "Sudo password: " passwd
-    for host in $* ; do
-        action_all_dcm_services $host start "$passwd"
-    done
-}

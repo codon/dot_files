@@ -95,12 +95,9 @@ fi
 
 PATH=$PATH:$HOME/bin
 
-CVSROOT=
-CVS_RSH=ssh
-
 EDITOR=$( which vim )
 
-export PATH CVSROOT EDITOR PROMPT_COMMAND
+export PATH EDITOR PROMPT_COMMAND
 unset USERNAME
 
 # connect to a screen if it is running
