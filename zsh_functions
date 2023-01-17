@@ -26,7 +26,7 @@ function git_cleanup() {
     fi
 
     local force="no"
-    while getopts 'fb:' opt
+    while getopts 'fb:s:' opt
     do
       case $opt in
         f)  local force="yes" ;;
@@ -35,6 +35,7 @@ function git_cleanup() {
                 echo "'${OPTARG}' is not a valid ref" >&2 ; return 1
             fi
             ;;
+        s) local since=$OPTARG ;;
       esac
     done
     shift $(($OPTIND-1))
@@ -47,7 +48,7 @@ function git_cleanup() {
     for branch in $(git branch -r --merged ${branch:-'origin/master'} | sed $sed_flags "s/^[[:space:]]*//" | grep "$filter" | grep -v '\<'${branch:-'origin/master'}'\>')
     do
         if [[ "$branch" == "origin/master" ]]; then continue ; fi
-        if [[ -z $(git rev-list $branch --since '1 month') ]]; then
+        if [[ -z $(git rev-list $branch --since "${since:-'1 month'}") ]]; then
             local name=$(echo $branch | sed 's/^origin\///')
             if [[ $force == "yes" ]]; then
                 git push --delete origin "$name"
