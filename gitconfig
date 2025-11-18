@@ -45,6 +45,7 @@
 	autoSetupRemote = true
 [pull]
 	default = rebase
+	rebase = true
 [user]
 	name = Ivan Heffner
 	email = iheffner@gmail.com
@@ -60,3 +61,5 @@
 	prompt = no
 [status]
 	relativePaths = false
+[init]
+	defaultBranch = main
