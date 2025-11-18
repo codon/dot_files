@@ -1,0 +1,19 @@
+alias vi=$( which vim )
+alias gi='gvim -rv'
+
+alias sqlplus='rlwrap sqlplus'
+alias perldoc='perldoc -t'
+
+alias gf='git fetch'
+alias gp='git push'
+alias grb='git rebase'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias ga='git add'
+alias gap='git add -p'
+alias gl='git log'
+alias gls='git log --stat'
+alias gg='git graph'
+alias gump='gmup'
+alias gmup='git merge @{u}'
+alias grup='git rebase @{u}'
