@@ -7,8 +7,8 @@ endif
 
 hi Normal                                                                 gui=NONE       guifg=#c0c0c0      guibg=#000040
 
-hi Comment      cterm=NONE       ctermfg=DarkGreen     ctermbg=NONE       gui=NONE       guifg=DarkGreen    guibg=NONE
-hi Constant     cterm=NONE       ctermfg=DarkRed       ctermbg=NONE       gui=NONE       guifg=DarkRed      guibg=NONE
+hi Comment      cterm=NONE       ctermfg=Green         ctermbg=NONE       gui=NONE       guifg=Green        guibg=NONE
+hi Constant     cterm=NONE       ctermfg=LightRed      ctermbg=NONE       gui=NONE       guifg=LightRed     guibg=NONE
 hi Special      cterm=NONE       ctermfg=Brown         ctermbg=NONE       gui=NONE       guifg=Yellow       guibg=NONE
 hi Identifier   cterm=NONE       ctermfg=DarkCyan      ctermbg=NONE       gui=NONE       guifg=DarkCyan     guibg=NONE
 hi Statement    cterm=NONE       ctermfg=Brown         ctermbg=NONE       gui=NONE       guifg=Yellow       guibg=NONE
@@ -16,6 +16,8 @@ hi PreProc      cterm=NONE       ctermfg=Cyan          ctermbg=NONE       gui=NO
 hi Type         cterm=NONE       ctermfg=Green         ctermbg=NONE       gui=NONE       guifg=Green        guibg=NONE
 hi Underlined   cterm=UNDERLINE  ctermfg=DarkMagenta                      gui=UNDERLINE  guifg=DarkMagenta
 hi Ignore       cterm=NONE       ctermfg=White         ctermbg=NONE       gui=NONE       guifg=White        guibg=NONE
+hi NonText      cterm=NONE       ctermfg=DarkGrey      ctermbg=NONE       gui=NONE       guifg=DarkGrey     guibg=NONE
+hi SpecialKey   cterm=NONE       ctermfg=DarkGrey      ctermbg=NONE       gui=NONE       guifg=DarkGrey     guibg=NONE
 
 
 hi ErrorMsg     cterm=NONE       ctermfg=White                            gui=NONE       guifg=White
@@ -35,11 +37,10 @@ hi StatusLine   cterm=NONE       ctermfg=White         ctermbg=DarkBlue   gui=NO
 hi clear Visual
 hi Visual       cterm=NONE       ctermfg=Black         ctermbg=DarkCyan   gui=NONE       guifg=Black        guibg=Cyan
 
-hi DiffChange   cterm=NONE       ctermfg=Black         ctermbg=DarkGreen  gui=NONE       guifg=Black        guibg=DarkGreen
-hi DiffText     cterm=NONE       ctermfg=Black         ctermbg=LightGreen gui=NONE       guifg=Black        guibg=LightGreen
-hi DiffAdd      cterm=NONE       ctermfg=White         ctermbg=Blue       gui=NONE       guifg=White        guibg=Blue
-hi DiffDelete   cterm=NONE       ctermfg=Black         ctermbg=Cyan       gui=NONE       guifg=Black        guibg=Cyan
-hi DiffText     cterm=NONE       ctermfg=White         ctermbg=Red        gui=NONE       guifg=White        guibg=Red
+hi DiffChange   cterm=NONE       ctermfg=Yellow        ctermbg=NONE       gui=NONE       guifg=Yellow       guibg=NONE
+hi DiffText     cterm=NONE       ctermfg=Yellow        ctermbg=Grey       gui=NONE       guifg=Black        guibg=Yellow
+hi DiffAdd      cterm=NONE       ctermfg=DarkGreen     ctermbg=LightGreen gui=NONE       guifg=Black        guibg=LightGreen
+hi DiffDelete   cterm=NONE       ctermfg=DarkRed       ctermbg=LightRed   gui=NONE       guifg=Red          guibg=LightRed
 
 hi Folded       cterm=NONE       ctermfg=Gray          ctermbg=Black      gui=NONE       guifg=Gray         guibg=Black
 hi FoldColumn   cterm=NONE       ctermfg=Black         ctermbg=Gray       gui=NONE       guifg=Black        guibg=Gray
