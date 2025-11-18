@@ -60,3 +60,7 @@ function git_cleanup() {
 }
 # export -f git_cleanup
 
+function hex() {
+    perl -wle 'printf "$_ => %x\n",ord($_) for @ARGV' $*
+}
+
